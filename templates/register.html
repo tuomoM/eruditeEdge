@@ -5,19 +5,23 @@
     <title>Register new user</title>
 </head>
 <body>
-    <p>userid :
-        <input type="text" name="userid" />
-    </p>
-    <p>
-        password
-        <input type="password" name="passord1" />
-
-    </p>
+    <h2> Create a new user</h2>
+    <form action="/create" method="post">
+        <p>userid :
+            <label for="username">User id</label>: <br />
+            <input type="text" name="username" id ="username" />
+        </p>
         <p>
-       repeat password
-        <input type="password" name="passord2" />
+            <label for="password1">Password</label>: <br />
+            <input type="password" name="password1" id = "password1"/>
 
-    </p>
+        </p>
+            <p>
+            <label for="password2">Repeat password</label>: <br />
+            <input type="password" name="password2" id = "password2"/>
 
+        </p>
+         <input type="submit" value="Create user" />
+    </form>
 </body>
 </html>
