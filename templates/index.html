@@ -7,10 +7,21 @@
 
 <body>
   <h1>index</h1>
+  {% if session.username %}
+
+  <p>
+    You are signed in with id : {{ session.username }}
+  </p>
+  <p>
+    <a = href="/logout"> Log out </a>
+  </p>
+  {% else %}
   <p>
     <b>Welcome to</b> <i>eruditeEdge</i>!
   </p>
+  <a = href="/login"> Log in</a>
   <a = href="/register">Register new user</a>
+  {% endif %}
 </body>
 
 </html>

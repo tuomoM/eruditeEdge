@@ -17,7 +17,8 @@ def register():
         flash(password2)
         error = user_service.register(username,password, password2)
         if error == "":
-            return redirect("/index")
+            session["username"] = username
+            return redirect("/")
         flash(error, "error" )
        
     
