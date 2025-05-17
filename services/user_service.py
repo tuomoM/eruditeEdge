@@ -9,7 +9,7 @@ class UserService:
     def register(self, username: str, password:str, password2:str)-> str:
         if password != password2:
             return "passwords are not identical"
-        if self._user_repository.user_exists:
+        if self._user_repository.user_exists(username):
             return "Username already exists, choose another username"
         if len(password) < 6:
             return "Password must be atleast 6 characters"

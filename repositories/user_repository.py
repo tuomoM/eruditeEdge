@@ -3,9 +3,9 @@ import db
 
 class UserRepository:
     def user_exists(self, username:str) -> bool:
-        sql = "select Username from users where username = ? "
-        result = db.query(sql, username)
-        return bool(result.fetchone())
+        sql = "select id from users where username = ? "
+        result = db.query(sql, [username])
+        return bool(result)
     
     def create_user(self,username:str,password:str):
         passwordhash = generate_password_hash(password)
