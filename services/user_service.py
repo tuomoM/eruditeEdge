@@ -23,3 +23,5 @@ class UserService:
         if result:
             return result
 
+
+user_service = UserService()
