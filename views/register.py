@@ -9,12 +9,8 @@ def register():
     error = ""
     if request.method == "POST":
         username = request.form["username"]
-        flash(username)
-
         password = request.form["password"]
-        flash(password)
         password2 = request.form["password2"]
-        flash(password2)
         error = user_service.register(username,password, password2)
         if error == "":
             session["username"] = username

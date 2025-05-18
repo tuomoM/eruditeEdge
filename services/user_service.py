@@ -19,7 +19,7 @@ class UserService:
         return ""
     
     def login(self,username: str,password: str):
-        result = self._user_repository.login_check()
+        result = self._user_repository.login_check(username, password)
         if result:
             return result
 
