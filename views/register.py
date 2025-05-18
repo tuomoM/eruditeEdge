@@ -8,6 +8,7 @@ def register():
     username = ""
     error = ""
     if request.method == "POST":
+        session["_flashes"].clear()
         username = request.form["username"]
         password = request.form["password"]
         password2 = request.form["password2"]
