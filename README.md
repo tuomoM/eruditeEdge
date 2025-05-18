@@ -11,3 +11,21 @@
 - Käyttäjä pystyy rakentamaaan sovelluksessa sanastokorteista harjoitussettejä ja tallentamaan ne kantaan. Käytettävissä tulee olla sekä omat että muiden julkiset sanakortit.
 - Käyttäjä pystyy harjoittelemaan valittujen sanakorttien sanastoa. Harjoitusessio lopetetaan eksplisiittisesti ja sovellus näyttää statistiikan harjoituksesta. Statistiikka tallennetaan ja sen voi katsoa jälkeenpäin.
 - Käyttäjä voi avata kantaan tallennetun oman harjoitussetin ja hänelle näytetään edellisen harjoituksen tulos, eli kuinka monta edellisellä kerralla meni oikein.
+
+
+## Installation 
+To intialize database use command:
+
+ *sqlite3 database.db < schema.sql*
+
+ install flask: 
+
+ *pip install flask*
+
+
+start solution:
+
+*flask run*
+
+
+
