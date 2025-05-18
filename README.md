@@ -3,7 +3,7 @@
 
 *This is a solution for helsinki university course*
 
-- Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen. <font color="green">Done</font>
+- Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen. <font color="green">(Done)</font>
 - Käyttäjä pystyy lisäämään sovellukseen sanastokortteja. Lisäksi käyttäjä pystyy muokkaamaan ja poistamaan lisäämiään sanastokortteja ja merkitsemään kortteja julkisiksi tai yksityisiksi.
 - Käyttäjä näkee sovellukseen lisätyt sanastokortit. Käyttäjä näkee sekä itse lisäämänsä että muiden käyttäjien julkisiksi merkitsemät sanastokortit.
 - Käyttäjä pystyy etsimään sanastokortteja hakusanalla tai muulla perusteella. Käyttäjä pystyy hakemaan sekä itse lisäämiään että muiden käyttäjien lisäämiä sanastokortteja.
