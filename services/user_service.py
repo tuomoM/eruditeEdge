@@ -15,8 +15,8 @@ class UserService:
             return "Password must be atleast 6 characters"
         if len(username) < 4:
             return "Username must be atleast 4 characters"
-        self._user_repository.create_user(username,password)
-        return ""
+        return self._user_repository.create_user(username,password)
+        
     
     def login(self,username: str,password: str):
         result = self._user_repository.login_check(username, password)

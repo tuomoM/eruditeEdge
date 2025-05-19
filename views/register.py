@@ -6,17 +6,17 @@ register_bp = Blueprint("register", __name__)
 @register_bp.route("/register", methods = ["POST", "GET"])
 def register():
     username = ""
-    error = ""
     if request.method == "POST":
         session["_flashes"].clear()
         username = request.form["username"]
         password = request.form["password"]
         password2 = request.form["password2"]
-        error = user_service.register(username,password, password2)
-        if error == "":
+        return_value = user_service.register(username,password, password2)
+        if type(return_value, int):
             session["username"] = username
+            session["userid"] = return_value
             return redirect("/")
-        flash(error, "error" )
+        flash(return_value, "error" )
        
     
     return render_template("register.html", username = username)

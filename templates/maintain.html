@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Maintain vocabulary</title>
+
+</head>
+<body>
+    <form action="/maintain" method="POST">
+        <p>userid :
+            <label for="word">word</label>: <br />
+            <input type="text" name="word" id ="word" />
+        </p>
+        <p>
+            <label for="description">Description</label>: <br />
+            <input type="text" name="description" id = "description"/>
+
+        </p>
+            <p>
+            <label for="example">Example sentence</label>: <br />
+            <input type="text" name="example" id = "example"/>
+
+        </p>
+        </p>
+            <p>
+            <label for="synonyms">Example sentence</label>: <br />
+            <input type="text" name="synonyms" id = "synonyms"/>
+
+        </p>
+         <input type="submit" value="Save" />
+    </form>
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+   {% endif %}
+   {% endwith %}
+{% block body %}{% endblock %}
+</body>
+</html>

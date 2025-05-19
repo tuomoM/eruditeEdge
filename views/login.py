@@ -20,5 +20,5 @@ def login():
             return redirect("/")
         flash("Incorrect password or username", "error" )
        
-    
+
     return render_template("login.html", username = username)
