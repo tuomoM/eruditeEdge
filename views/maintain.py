@@ -5,9 +5,14 @@ maintain_bp = Blueprint("maintain", __name__)
 
 @maintain_bp.route("/maintain", methods = ["POST", "GET"])
 def maitain():
-    if not session["userid"]:
+    if not session["user_id"]:
         return redirect("/")
-    
-       
+    if request.method == "POST":
+        word = request.form["word"]
+        description = request.form["description"]
+        example = request.form["example"]
+        synomyms = request.form["synonyms"]
+
+
     
     return render_template("maintain.html")

@@ -29,12 +29,22 @@
         </p>
          <input type="submit" value="Save" />
     </form>
+  
+
+    {% for entry in vocab %}
+     <ul class= "items">
+
+       <li>{{ vocab.word }} " " {{ vocab.description }}</li>
+
+     </ul>
+    {% endfor %}
+
 
   {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul class=flashes>
     {% for message in messages %}
-      <li>{{ message }}</li>
+      <li>{{ message }} </li>
     {% endfor %}
     </ul>
    {% endif %}

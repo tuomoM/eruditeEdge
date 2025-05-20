@@ -14,7 +14,7 @@ def register():
         return_value = user_service.register(username,password, password2)
         if type(return_value, int):
             session["username"] = username
-            session["userid"] = return_value
+            session["user_id"] = return_value
             return redirect("/")
         flash(return_value, "error" )
        
