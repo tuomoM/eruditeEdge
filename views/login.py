@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, flash, request, session
+from flask import Blueprint, render_template, redirect, flash, request, session, get_flashed_messages
 from services.user_service import user_service
 
 login_bp = Blueprint("login", __name__)
@@ -10,7 +10,7 @@ def login():
     username = ""
     error = ""
     if request.method == "POST":
-        session["_flashes"].clear()
+     
         username = request.form["username"]
         password = request.form["password"]
         id = user_service.login(username,password)

@@ -7,7 +7,7 @@
 </head>
 <body>
     <form action="/maintain" method="POST">
-        <p>userid :
+        <p>
             <label for="word">word</label>: <br />
             <input type="text" name="word" id ="word" />
         </p>
@@ -31,13 +31,13 @@
     </form>
   
 
-    {% for entry in vocab %}
+    
      <ul class= "items">
-
-       <li>{{ vocab.word }} " " {{ vocab.description }}</li>
-
+       {% for vocab in vocabs %}
+         <li>{{ vocab.word }} </li>
+        {% endfor %}
      </ul>
-    {% endfor %}
+   
 
 
   {% with messages = get_flashed_messages() %}
