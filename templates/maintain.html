@@ -18,12 +18,12 @@
         </p>
             <p>
             <label for="example">Example sentence</label>: <br />
-            <input type="text" name="example" id = "example"/>
+            <input type="text" name="example" size = 100 id = "example"/>
 
         </p>
         </p>
             <p>
-            <label for="synonyms">Example sentence</label>: <br />
+            <label for="synonyms">Synonyms</label>: <br />
             <input type="text" name="synonyms" id = "synonyms"/>
 
         </p>
@@ -31,13 +31,25 @@
     </form>
   
 
-    
-     <ul class= "items">
-       {% for vocab in vocabs %}
-         <li>{{ vocab.word }} </li>
-        {% endfor %}
-     </ul>
-   
+
+    <table>
+      <tr>
+        <th>Word</th>
+        <th>Desription</th>
+        <th>Example sentence</th>
+        <th> synonyms</th>
+        <th>global flag</th>
+      </tr>
+      {% for vocab in vocabs %}
+       <tr>
+         <td>{{ vocab.word }} </td>
+         <td>{{ vocab.w_description }}</td>
+         <td>{{ vocab.example }}</td>
+         <td>{{ vocab.synonyms }}</td>
+       </tr> 
+      {% endfor %}
+
+    </table>
 
 
   {% with messages = get_flashed_messages() %}
