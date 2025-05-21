@@ -16,10 +16,22 @@ class VocabRepository:
                ORDER BY CASE WHEN user_id = ? THEN 0 ELSE 1 END"""
         result_set = db.query(sql,[user_id,user_id])
         return result_set 
-    def edit_vocab(self,word:str, description: str, example: str, synonums: str, user_id: int):
-        return 0
-    def del_vocab(self,word:str) -> bool:
-        return False
+    def edit_vocab(self,word:str, description: str, example: str, synonums: str, global_flag: int, user_id: int):
+        sql = """UPDATE vocabs set w_description = ? example = ?
+                 synonums = ? global_flag = ? WHERE word = ? AND 
+                 user_id = ?
+                """
+        db.execute(sql,[description,example,synonums,global_flag,word,user_id])
+        
+    def del_vocab(self,word:str):
+        sql = """DELETE from vocabs where word = ?"""
+        db.execute(sql,word)
+        
 
+    def get_owner(self,word:str)->int:
+        sql = "SELECT user_id FROM vocabs where word = ?"
+        return db.query(sql,word)
+        
+    
         
 vocab_repository = VocabRepository()
