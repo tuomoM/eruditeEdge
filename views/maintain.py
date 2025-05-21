@@ -20,5 +20,8 @@ def maitain():
     vocabs = vocab_service.get_vocabs(session["user_id"])
     flash("vocabs loaded?")
     flash(len(vocabs))
+    flash(session["user_id"])
+    
+
 
     return render_template("maintain.html", vocabs = vocabs)

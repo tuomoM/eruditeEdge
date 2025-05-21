@@ -11,8 +11,8 @@ class UserRepository:
         passwordhash = generate_password_hash(password)
         sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
         db.execute(sql,[username, passwordhash])
-        return db.last_insert_id
-
+        return db.query("SELECT id from users WHERE username = ?", [username])
+    
     def login_check(self,username: str, password: str):
         sql = "SELECT id, password_hash FROM users WHERE username = ?"
         result = db.query(sql, [username])
