@@ -18,9 +18,9 @@ class VocabRepository:
         return result_set 
     def edit_vocab(self,vocab):
         sql = """UPDATE vocabs set word = ?w_description = ? example = ?
-                 synonums = ? global_flag = ? word = ? WHERE id = ? 
+                 synonyms = ? global_flag = ? word = ? WHERE id = ? 
                 """
-        db.execute(sql,[vocab.word,vocab.w_description,vocab.example,vocab.synonums,vocab.global_flag,vocab.id])
+        db.execute(sql,[vocab.word,vocab.w_description,vocab.example,vocab.synonyms,vocab.global_flag,vocab.id])
         
     def del_vocab(self,id:int):
         sql = "DELETE from vocabs where id = ?"
@@ -28,7 +28,8 @@ class VocabRepository:
         
     def get_id(self, word:str)->int:
         sql = "SELECT id FROM vocabs where word = ?"
-        return db.query(sql,id)       
+        return db.query(sql,id) 
+          
     def get_owner(self,id)->int:
         sql = "SELECT user_id FROM vocabs where id = ?"
         return db.query(sql,id)

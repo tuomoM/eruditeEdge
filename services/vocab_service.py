@@ -28,7 +28,7 @@ class VocabService:
         if user_id != vocab.user_id:
             return "You cannot edit other users vocab"
         if word and word != vocab.word:
-            if vocab.id != self.get_vocab_id(word):
+            if vocab.id != self._vocab_repository.get_id(word): 
                 return "The changed word already exists in database"
             vocab.word = word
         if description:
@@ -37,13 +37,15 @@ class VocabService:
             vocab.w_description = description
         if example:
             vocab.example = example
-        if synonums
+        if synonums:
             vocab.synonums = synonums
         if global_flag:
             vocab.global_flag = global_flag        
 
         self._vocab_repository.edit_vocab(vocab)
-        
+
+    def get_vocab(self,id:int):
+        return self._vocab_repository.get_vocab(id)
 
 vocab_service = VocabService()
 

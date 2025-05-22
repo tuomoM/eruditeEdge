@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Maintain vocabulary</title>
+
+</head>
+<body>
+    <form action="/edit" method="POST">
+        <p>
+            <label for="word">word</label>: <br />
+            <input type="text" name="word" value = {vocab.word} id ="word" />
+        </p>
+        <p>
+            <label for="description">Description</label>: <br />
+            <input type="text" name="description" size = 100 value = {vocab.w_description} id = "description"/>
+
+        </p>
+            <p>
+            <label for="example">Example sentence</label>: <br />
+            <input type="text" name="example" size = 100 value = {vocab.example} id = "example"/>
+
+        </p>
+        </p>
+            <p>
+            <label for="synonyms">Synonyms</label>: <br />
+            <input type="text" name="synonyms" size = 50 value = {vocab.synonyms} id = "synonyms"/>
+
+        </p>
+         <input type="submit" value="Save" />
+    </form>
+  
+
+
+
+
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }} </li>
+    {% endfor %}
+    </ul>
+   {% endif %}
+   {% endwith %}
+{% block body %}{% endblock %}
+</body>
+</html>

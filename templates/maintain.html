@@ -42,10 +42,15 @@
       </tr>
       {% for vocab in vocabs %}
        <tr>
-         <td>{{ vocab.word }} </td>
+        {%if vocab.user_id == session["user_id"]%}
+         <td><a href="/edit{{ vocab.id }}" > {{vocab.word}}</a></td>
+        {% else %}
+         <td> {{ vocab.word }}</td>
+        {% endif %}
          <td>{{ vocab.w_description }}</td>
          <td>{{ vocab.example }}</td>
          <td>{{ vocab.synonyms }}</td>
+         <td>{{ vocab.global_flag }}</td>
        </tr> 
       {% endfor %}
 
