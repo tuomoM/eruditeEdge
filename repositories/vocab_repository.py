@@ -28,7 +28,7 @@ class VocabRepository:
         
     def get_id(self, word:str)->int:
         sql = "SELECT id FROM vocabs where word = ?"
-        return db.query(sql,id) 
+        return db.query(sql,[id]) 
           
     def get_owner(self,id)->int:
         sql = "SELECT user_id FROM vocabs where id = ?"
