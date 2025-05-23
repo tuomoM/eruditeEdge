@@ -24,23 +24,21 @@ class VocabService:
         return self._vocab_repository.get_vocabs(user_id)
     
     
-    def edit_vocab(self, vocab ,word:str, description:str, example:str, synonums:str, user_id:int, global_flag: int ):
-        if user_id != vocab.user_id:
-            return "You cannot edit other users vocab"
-        if word and word != vocab.word:
-            if vocab.id != self._vocab_repository.get_id(word): 
+    def edit_vocab(self, vocab ,word:str, description:str, example:str, synonyms:str, global_flag: int ):
+        if word and word != vocab["word"]:
+            if vocab["id"] != self._vocab_repository.get_id(word): 
                 return "The changed word already exists in database"
             vocab.word = word
         if description:
             if word in description:
                 return "Please do not use the vocab word in description"
-            vocab.w_description = description
+            vocab["w_description"] = description
         if example:
-            vocab.example = example
-        if synonums:
-            vocab.synonums = synonums
+            vocab["example"] = example
+        if synonyms:
+            vocab["synonyms"] = synonyms
         if global_flag:
-            vocab.global_flag = global_flag        
+            vocab["global_flag"] = global_flag        
 
         self._vocab_repository.edit_vocab(vocab)
 

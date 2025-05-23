@@ -43,7 +43,7 @@
       {% for vocab in vocabs %}
        <tr>
         {%if vocab.user_id == session["user_id"]%}
-         <td><a href="/edit{{ vocab.id }}" > {{vocab.word}}</a></td>
+         <td><a href="/edit/{{ vocab.id }}" > {{vocab.word}}</a></td>
         {% else %}
          <td> {{ vocab.word }}</td>
         {% endif %}

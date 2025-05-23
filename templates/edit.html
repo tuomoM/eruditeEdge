@@ -9,24 +9,33 @@
     <form action="/edit" method="POST">
         <p>
             <label for="word">word</label>: <br />
-            <input type="text" name="word" value = {vocab.word} id ="word" />
+            <input type="text" name="word" value = "{{vocab.word}}" id ="word" />
         </p>
         <p>
             <label for="description">Description</label>: <br />
-            <input type="text" name="description" size = 100 value = {vocab.w_description} id = "description"/>
+            <input type="text" name="description" size = 100 value = "{{ vocab.w_description }}" id = "description"/>
 
         </p>
             <p>
             <label for="example">Example sentence</label>: <br />
-            <input type="text" name="example" size = 100 value = {vocab.example} id = "example"/>
+            <input type="text" name="example" size = 100 value = "{{ vocab.example }}" id = "example"/>
 
         </p>
-        </p>
-            <p>
+        
+        <p>
             <label for="synonyms">Synonyms</label>: <br />
-            <input type="text" name="synonyms" size = 50 value = {vocab.synonyms} id = "synonyms"/>
+            <input type="text" name="synonyms" size = 50 value = "{{vocab.synonyms}}" id = "synonyms"/>
 
         </p>
+
+        <p>
+            <label for="global_flag">global</label>: <br />
+            <input type="text" name="global_flag" size = 2 value = "{{vocab.global_flag}}" id = "global_flag"/>
+
+        </p>
+
+
+
          <input type="submit" value="Save" />
     </form>
   

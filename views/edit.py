@@ -21,16 +21,17 @@ def edit(id:int):
         example = request.form["example"]
         synonyms = request.form["synonyms"]
         global_flag = request.form["global_flag"]
-        error = vocab_service.edit_vocab(vocab ,word, description, example, synonyms, global_flag):
+        error = vocab_service.edit_vocab(vocab ,word, description, example, synonyms, global_flag)
         if error:
             flash(error, "error")
             return render_template("/edit.html", vocab = vocab)
         return redirect("/maintain")
     
     vocab = vocab_service.get_vocab(id)
-    if vocab.user_id != session["user_id"]:
+  
+    if vocab["user_id"] != session["user_id"]:
         abort(404)
- 
+    
     
 
 
