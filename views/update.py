@@ -12,11 +12,20 @@ def update(id:int):
 
     
     if request.method == "POST":
-       
         vocab = vocab_service.get_vocab(id)
         if session["user_id"] != vocab["user_id"]:
             flash("You cannot edit vocabs created by other users")
-            return render_template("/edit.html", vocab = vocab)
+            return render_template("/edit.html", vocab = vocab)        
+        if "delete" in request.form:
+            print("deleting")
+           
+            result = vocab_service.delete_vocab(vocab["id"])
+            if result:
+                flash(result)
+                return render_template("/edit.htlm", vocab = vocab)
+            return redirect("/maintain")
+      
+
         word = request.form["word"]
         description = request.form["description"]
         example = request.form["example"]
