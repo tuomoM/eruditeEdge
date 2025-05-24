@@ -25,22 +25,13 @@ class VocabService:
     
     
     def edit_vocab(self, vocab ,word:str, description:str, example:str, synonyms:str, global_flag: int ):
-        if word and word != vocab["word"]:
-            if vocab["id"] != self._vocab_repository.get_id(word): 
-                return "The changed word already exists in database"
-            vocab.word = word
+        id = vocab["id"]
         if description:
             if word in description:
                 return "Please do not use the vocab word in description"
-            vocab["w_description"] = description
-        if example:
-            vocab["example"] = example
-        if synonyms:
-            vocab["synonyms"] = synonyms
-        if global_flag:
-            vocab["global_flag"] = global_flag        
+                
 
-        self._vocab_repository.edit_vocab(vocab)
+        self._vocab_repository.edit_vocab(word, description, example, synonyms, global_flag, id)
 
     def get_vocab(self,id:int):
         return self._vocab_repository.get_vocab(id)

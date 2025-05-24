@@ -6,7 +6,7 @@
 
 </head>
 <body>
-    <form action="/edit" method="POST">
+    <form action="/update/{{vocab.id}}" method="POST">
         <p>
             <label for="word">word</label>: <br />
             <input type="text" name="word" value = "{{vocab.word}}" id ="word" />
@@ -30,8 +30,11 @@
 
         <p>
             <label for="global_flag">global</label>: <br />
-            <input type="text" name="global_flag" size = 2 value = "{{vocab.global_flag}}" id = "global_flag"/>
+            <input type="number" name="global_flag" size = 1 value = "{{vocab.global_flag}}" id = "global_flag"/>
 
+        </p>
+        <p>
+            <input type="hidden" name = "vocab_id" value =  "{{ vocab.id }}" id = "id"/> 
         </p>
 
 
@@ -39,8 +42,6 @@
          <input type="submit" value="Save" />
     </form>
   
-
-
 
 
 

@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, request,flash, redirect, session, abort
 from services.vocab_service import vocab_service
 
-edit_bp = Blueprint("edit", __name__)
+update_bp = Blueprint("ipdate", __name__)
 
-@edit_bp.route("/edit/<int:id>", methods = ["POST", "GET"])
-def edit(id:int):
+@update_bp.route("/update/<int:id>", methods = ["POST"])
+def update(id:int):
     if not session["user_id"]:
         return redirect("/")
     
@@ -12,6 +12,7 @@ def edit(id:int):
 
     
     if request.method == "POST":
+       
         vocab = vocab_service.get_vocab(id)
         if session["user_id"] != vocab["user_id"]:
             flash("You cannot edit vocabs created by other users")
@@ -26,13 +27,3 @@ def edit(id:int):
             flash(error, "error")
             return render_template("/edit.html", vocab = vocab)
         return redirect("/maintain")
-    
-    vocab = vocab_service.get_vocab(id)
-  
-    if vocab["user_id"] != session["user_id"]:
-        abort(404)
-    
-    
-
-
-    return render_template("/edit.html", vocab = vocab)

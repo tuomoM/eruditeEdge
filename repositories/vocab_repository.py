@@ -16,11 +16,11 @@ class VocabRepository:
                ORDER BY CASE WHEN user_id = ? THEN 0 ELSE 1 END"""
         result_set = db.query(sql,[user_id,user_id])
         return result_set 
-    def edit_vocab(self,vocab):
-        sql = """UPDATE vocabs set word = ?w_description = ? example = ?
-                 synonyms = ? global_flag = ? word = ? WHERE id = ? 
+    def edit_vocab(self,word:str, description:str, example:str, synonyms:str, global_flag:int, id:int):
+        sql = """UPDATE vocabs set word = ?, w_description = ?, example = ?,
+                 synonyms = ?, global_flag = ? WHERE id = ? 
                 """
-        db.execute(sql,[vocab["word"],vocab["w_description"],vocab["example"],vocab["synonyms"],vocab["global_flag"],vocab["id"]])
+        db.execute(sql,[word,description,example,synonyms,global_flag,id])
         
     def del_vocab(self,id:int):
         sql = "DELETE from vocabs where id = ?"
@@ -28,14 +28,15 @@ class VocabRepository:
         
     def get_id(self, word:str)->int:
         sql = "SELECT id FROM vocabs where word = ?"
-        return db.query(sql,[id]) 
+        result = db.query(sql,[word]) 
+        return result
           
     def get_owner(self,id)->int:
         sql = "SELECT user_id FROM vocabs where id = ?"
         return db.query(sql,[id])
     
     def get_vocab(self,id):
-        sql = "SELECT word, w_description, example, synonyms, user_id, global_flag from vocabs where id = ? "
+        sql = "SELECT id, word, w_description, example, synonyms, user_id, global_flag from vocabs where id = ? "
         result = db.query(sql, [id])
         return result[0] if result else None
         
