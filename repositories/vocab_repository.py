@@ -23,9 +23,14 @@ class VocabRepository:
         db.execute(sql,[word,description,example,synonyms,global_flag,id])
         
     def del_vocab(self,id:int):
-        sql = "DELETE from vocabs where id = ?"
-        db.execute(sql,[id])
+        sql = "delete from vocabs where id = ?"
+        try:
+            db.execute(sql,[id])
+        except Exception:
+            return "Exception"
+        return None
         
+
     def get_id(self, word:str)->int:
         sql = "SELECT id FROM vocabs where word = ?"
         result = db.query(sql,[word]) 

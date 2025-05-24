@@ -4,7 +4,7 @@ from services.vocab_service import vocab_service
 maintain_bp = Blueprint("maintain", __name__)
 
 @maintain_bp.route("/maintain", methods = ["POST", "GET"])
-def maitain():
+def maintain():
     if not session["user_id"]:
         return redirect("/")
     
@@ -18,9 +18,7 @@ def maitain():
             flash(error, "error")
     
     vocabs = vocab_service.get_vocabs(session["user_id"])
-    flash("vocabs loaded?")
-    flash(len(vocabs))
-    flash(session["user_id"])
+ 
     
 
 

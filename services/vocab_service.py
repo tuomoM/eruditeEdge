@@ -20,6 +20,7 @@ class VocabService:
         if self._vocab_repository.vocab_exists(word):
             return "Word already exists in database"
         self._vocab_repository.save_vocabs(word,description,example,synonums,user_id)
+
     def get_vocabs(self,user_id):
         return self._vocab_repository.get_vocabs(user_id)
     
@@ -35,6 +36,11 @@ class VocabService:
 
     def get_vocab(self,id:int):
         return self._vocab_repository.get_vocab(id)
+    
+    def delete_vocab(self, vocab_id):
+       return_value = self._vocab_repository.del_vocab(vocab_id)
+       if return_value: 
+          return return_value 
 
 vocab_service = VocabService()
 
