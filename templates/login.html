@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>login</title>
-</head>
-<body>
+{% extends "template.html" %}
+
+{% block title %}Maintain{% endblock %}
+
+{% block content %}
     <form action="/login" method="POST">
                <p>userid :
             <label for="username">User id</label>: <br />
@@ -15,15 +13,4 @@
             <input type="password" name="password" id = "password"/>
      <input type="submit" value="login" />
     </form>
-     {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class=flashes>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-        {% endwith %}
-     {% block body %}{% endblock %}
-</body>
-</html>
+ {% endblock %}

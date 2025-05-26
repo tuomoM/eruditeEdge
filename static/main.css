@@ -1,0 +1,49 @@
+body {
+  margin: auto;
+  max-width: 50em;
+  font-family: serif;
+  background-color: white;
+
+  
+
+}
+.nav {
+  background-color: beige;
+  font-style: italic;
+  font-size: 10;
+    
+
+}
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  border: 3px solid lightgrey;
+}
+h2 {
+    font-size: large;
+    font-style: normal;
+    font-weight: 200;
+}
+
+thead th:nth-child(1) {
+  width: 30%;
+}
+
+thead th:nth-child(2) {
+  width: 20%;
+}
+
+thead th:nth-child(3) {
+  width: 15%;
+}
+
+thead th:nth-child(4) {
+  width: 35%;
+}
+
+th,
+td {
+  padding: 20px;
+  text-align: left;
+}

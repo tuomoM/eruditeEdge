@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>Maintain vocabulary</title>
+{% extends "template.html" %}
 
-</head>
-<body>
+{% block title %}Maintain{% endblock %}
+
+{% block content %}
     <form action="/update/{{vocab.id}}" method="POST">
         <p>
             <label for="word">word</label>: <br />
@@ -43,19 +40,7 @@
          <input type="submit" value="Delete" name = "delete" />
     </form>
    
-  
+  {% endblock %}
 
 
 
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }} </li>
-    {% endfor %}
-    </ul>
-   {% endif %}
-   {% endwith %}
-{% block body %}{% endblock %}
-</body>
-</html>

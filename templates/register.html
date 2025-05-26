@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>Register new user</title>
-</head>
-<body>
+{% extends "template.html" %}
+
+{% block title %}Maintain{% endblock %}
+
+{% block content %}
     <h2> Create a new user</h2>
     <form action="/register" method="POST">
         <p>userid :
@@ -23,16 +21,4 @@
         </p>
          <input type="submit" value="register" />
     </form>
-
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-   {% endif %}
-   {% endwith %}
-{% block body %}{% endblock %}
-</body>
-</html>
+{% endblock %}

@@ -1,28 +1,13 @@
-<!DOCTYPE html>
-<html>
+{% extends "template.html" %}
 
-<head>
-  <title>Main page</title>
-</head>
+{% block title %}Main page{% endblock %}
 
-<body>
-  <h1>index</h1>
-  {% if session.username %}
+{% block content %}
+<h2>Main</h2>
 
-  <p>
-    You are signed in with id : {{ session.username }}
-  </p>
-  <p>
-    <a = href="/maintain">Maintain vocabulary</a>
-    <a = href="/logout"> Log out </a>
-  </p>
-  {% else %}
-  <p>
-    <b>Welcome to</b> <i>eruditeEdge</i>!
-  </p>
-  <a = href="/login"> Log in</a>
-  <a = href="/register">Register new user</a>
-  {% endif %}
-</body>
-
-</html>
+{% for message in get_flashed_messages() %}
+<p class="info">
+  {{ message }}
+</p>
+{% endfor %}
+{% endblock %}

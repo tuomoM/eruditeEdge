@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>Maintain vocabulary</title>
 
-</head>
-<body>
+
+{% extends "template.html" %}
+
+{% block title %}Maintain{% endblock %}
+
+{% block content %}
+<h2>Add new vocab</h2>
+
     <form action="/maintain" method="POST">
         
         <p>
@@ -31,7 +32,9 @@
          <input type="submit" value="Save" />
     </form>
   
-
+   <td>
+      <h2> existing vocabs </h2>
+   </td>
 
     <table>
       <tr>
@@ -57,16 +60,4 @@
 
     </table>
 
-
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }} </li>
-    {% endfor %}
-    </ul>
-   {% endif %}
-   {% endwith %}
-{% block body %}{% endblock %}
-</body>
-</html>
+ {% endblock %}
