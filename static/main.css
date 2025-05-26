@@ -47,3 +47,10 @@ td {
   padding: 20px;
   text-align: left;
 }
+
+input[type="submit"]{
+  background-color: #f2f0f0; 
+  color: rgb(52, 56, 58); 
+  border-color: beige;
+  border-radius: 5px;
+}
