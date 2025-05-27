@@ -11,7 +11,7 @@ class VocabRepository:
        
 
     def get_vocabs(self, user_id : int):
-        sql = """SELECT id, word, w_description, example, synonyms, user_id from vocabs where user_id = ? 
+        sql = """SELECT id, word, w_description, example, synonyms, user_id, global_flag from vocabs where user_id = ? 
                OR global_flag = 1  
                ORDER BY CASE WHEN user_id = ? THEN 0 ELSE 1 END"""
         result_set = db.query(sql,[user_id,user_id])
