@@ -9,15 +9,13 @@ def main():
     
     if session["user_id"]:
         if request.method == "POST":
-            if "train" in request.form:
-                print("train button registered")
-                return render_template("practiceFlash.html", vocabs = request.form["vocabs"])
+           
             
-            print("no train button registerd")
+            
             search_term = request.form["search_t"]
             vocabs = vocab_service.find_by_word(search_term, session["user_id"])
             if vocabs:
-                return render_template("index.html", vocabs = vocabs) 
+                return render_template("index.html", vocabs = vocabs, search_t = search_term) 
             else:
                 flash("No entries found")
                 

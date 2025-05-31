@@ -4,16 +4,19 @@
 
 {% block content %}
   
-    <p> with: {{vocabs | count }} </p>
+   
 <div class="flashcard-container">
     {% for vocab in vocabs %}
     <div class="flashcard">
-        <div class="front">
-            <p>{{ vocab.word }}</p>
-        </div>
-        <div class="back">
-            <p>{{ vocab.w_description }}</p>
-        </div>
+        <input type="checkbox" id="card-{{ loop.index }}" class="card-checkbox">
+        <label for="card-{{ loop.index }}">
+            <div class="front">
+                <p>{{ vocab.word }}</p>
+            </div>
+            <div class="back">
+                <p>{{ vocab.w_description }}</p>
+            </div>
+        </label>
     </div>
     {% endfor %}
 </div>
