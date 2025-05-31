@@ -9,15 +9,15 @@
 </head>
 <body>
     <div class="header">
-        <a = href="/">
+        <a href="/">
             <img src="/static/Eelogo.jpg" width="130" height="50" >
         </a>
     </div>
     <div class="nav">
     <p>
       {% if session.user_id %}
-       <a = href="/maintain">Maintain vocabulary</a>
-       <a = href="/logout"> Log out </a>
+       <a  href="/maintain">Maintain vocabulary</a>
+       <a  href="/logout"> Log out </a>
 
       {% else %}
        <a href="/login">Log in!</a> |
