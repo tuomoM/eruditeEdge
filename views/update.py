@@ -17,7 +17,7 @@ def update(id:int):
             flash("You cannot edit vocabs created by other users")
             return render_template("/edit.html", vocab = vocab)        
         if "delete" in request.form:
-            print("deleting")
+         
            
             result = vocab_service.delete_vocab(vocab["id"])
             if result:

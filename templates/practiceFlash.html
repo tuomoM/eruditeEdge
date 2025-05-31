@@ -1,0 +1,25 @@
+{% extends "template.html" %}
+
+{% block title %}Flashcards{% endblock %}
+
+{% block content %}
+  
+    <p> with: {{vocabs | count }} </p>
+    <div class="flashcard-container">
+        {% for vocab in vocabs %}
+        <p> {{vocab.word}}</p>
+        <div class="flashcard">
+            <div class="front">
+                <p>{{vocab.word}}</p>
+            </div>
+            <div class="back">
+                <p>{{vocab.w_description}}</p>
+            </div>
+        </div>
+         {% endfor %}
+    </div>
+   
+    {% for vocab in vocabs %}
+    <p>{{vocab.word}}</p>
+    {% endfor %}
+{% endblock %}

@@ -41,6 +41,9 @@ class VocabService:
        return_value = self._vocab_repository.del_vocab(vocab_id)
        if return_value: 
           return return_value 
+       
+    def find_by_word(self, search_string, user_id):
+        return self._vocab_repository.find_vocabs(search_string,user_id)
 
 vocab_service = VocabService()
 

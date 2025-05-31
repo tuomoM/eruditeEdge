@@ -45,6 +45,13 @@ class VocabRepository:
         result = db.query(sql, [id])
         return result[0] if result else None
         
-    
+    def find_vocabs(self,search_string:str, user_id:int):
+        sql = """SELECT id, word, w_description, example, synonyms, user_id, global_flag from vocabs 
+               where (user_id = ? AND word like ?)
+               OR (global_flag = 1  AND word like ?)
+               ORDER BY CASE WHEN user_id = ? THEN 0 ELSE 1 END"""
+        like = "%" + search_string + "%"
+        result = db.query(sql,[user_id,like,like, user_id])
+        return result      
         
 vocab_repository = VocabRepository()
