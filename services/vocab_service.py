@@ -44,6 +44,11 @@ class VocabService:
        
     def find_by_word(self, search_string, user_id):
         return self._vocab_repository.find_vocabs(search_string,user_id)
+    
+
+    def get_vocabset(self,user_id:int, ids):
+        return None
+
 
 vocab_service = VocabService()
 

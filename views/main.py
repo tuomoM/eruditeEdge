@@ -7,7 +7,7 @@ main_bp = Blueprint("main", __name__)
 @main_bp.route("/", methods = ["POST", "GET"])
 def main():
     
-    if session["user_id"]:
+    if "user_id" in session:
         if request.method == "POST":
            
             

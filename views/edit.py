@@ -6,7 +6,7 @@ edit_bp = Blueprint("edit", __name__)
 @edit_bp.route("/edit/<int:id>", methods = ["POST", "GET"])
 def edit(id:int):
    
-    if not session["user_id"]:
+    if "user_id" not in session:
         return redirect("/")
     
     vocab = vocab_service.get_vocab(id)

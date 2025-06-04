@@ -5,7 +5,7 @@ maintain_bp = Blueprint("maintain", __name__)
 
 @maintain_bp.route("/maintain", methods = ["POST", "GET"])
 def maintain():
-    if not session["user_id"]:
+    if "user_id" not in session:
         return redirect("/")
     
     if request.method == "POST":
