@@ -3,21 +3,22 @@
 
 *This is a solution for helsinki university course*
 ###completed 
-- Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen. <font color="green">(Done)</font>
-- Käyttäjä pystyy lisäämään sovellukseen sanastokortteja. Lisäksi käyttäjä pystyy muokkaamaan ja poistamaan lisäämiään sanastokortteja ja merkitsemään kortteja julkisiksi tai yksityisiksi. <font color="green">(Done)</font>
-- Käyttäjä näkee sovellukseen lisätyt sanastokortit. Käyttäjä näkee sekä itse lisäämänsä että muiden käyttäjien julkisiksi merkitsemät sanastokortit. <font color="green">(Done)</font>
+- User is able to create an userid and log in <font color="green">(Done)</font>
+- User is able to add vocabs to database. <font color="green">(Done)</font>
+- User is able to maintain already added vocab, and set the visibility to either private or global <font color="green">(Done)</font>
+- User is able to see and search for vocabs created by him/herself and ones marked global by other users <font color="green">(Done)</font>
+ User is able to create practice sets and practice them.  <font color="green">(Done)</font>
 
-- Käyttäjä pystyy etsimään sanastokortteja hakusanalla tai muulla perusteella. Käyttäjä pystyy hakemaan sekä itse lisäämiään että muiden käyttäjien lisäämiä sanastokortteja.
+-
 
 
 ### not yet completed
-- Sovelluksessa on käyttäjäsivut, jotka näyttävät jokaisesta käyttäjästä tilastoja ja käyttäjän lisäämät sanastokortit.
-- Käyttäjä pystyy rakentamaaan sovelluksessa sanastokorteista harjoitussettejä ja tallentamaan ne kantaan. Käytettävissä tulee olla sekä omat että muiden julkiset sanakortit.
+- Application has user pager that shows statistic about the user
+-
 - Käyttäjä pystyy harjoittelemaan valittujen sanakorttien sanastoa. Harjoitusessio lopetetaan eksplisiittisesti ja sovellus näyttää statistiikan harjoituksesta. Statistiikka tallennetaan ja sen voi katsoa jälkeenpäin.
-- Käyttäjä voi avata kantaan tallennetun oman harjoitussetin ja hänelle näytetään edellisen harjoituksen tulos, eli kuinka monta edellisellä kerralla meni oikein.
+- User is able to open a previously practiced set of vocabs and he is shown the test result from previous time he did the set
 
-### functionalities done, but not in original plan
-- Searched vocabs can be practiced using flashcards
+
 
 
 ## Installation 
