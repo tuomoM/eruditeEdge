@@ -54,9 +54,15 @@ class VocabRepository:
         result = db.query(sql,[user_id,like,like, user_id])
         return result      
         
-    def get_vocabs_by_ids(self, ids):
-        sql =  f"SELECT id, word, w_description, example FROM vocabs WHERE id IN ({','.join(['?']*len(ids))})"
-        result = db.query(sql,ids)
+    def get_vocabs_by_ids(self,user_id, ids):
+        sql =  (
+            "SELECT id, word, w_description, example "
+            "FROM vocabs "
+            "WHERE (user_id = ? OR global_flag = 1) AND id IN ({})"
+        ).format(','.join(['?'] * len(ids)))
+        
+        params = [user_id]+ids
+        result = db.query(sql,params)
         return result
         
 vocab_repository = VocabRepository()

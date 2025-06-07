@@ -1,0 +1,26 @@
+{% extends "template.html" %}
+
+{% block title %}Select vocabs for training{% endblock %}
+
+{% block content %}
+    <h2> Select vocabs</h2>
+<form action="/process_selection" method="POST">
+    <div class="vocab-list">
+        {% for vocab in vocabs %}
+        <div class="vocab-item">
+            <input type="checkbox" id="vocab-{{ vocab.id }}" name="vocab_ids" value="{{ vocab.id }}">
+            <label for="vocab-{{ vocab.id }}">{{ vocab.word }}</label>
+        </div>
+        {% endfor %}
+    </div>
+        <div class="practice-mode">
+        <p>Select Practice Mode:</p>
+        <input type="radio" id="flashcards" name="practice_mode" value="flashcards" checked>
+        <label for="flashcards">Flashcards</label>
+        
+        <input type="radio" id="test" name="practice_mode" value="test">
+        <label for="test">Test</label>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

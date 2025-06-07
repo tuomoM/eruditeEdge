@@ -22,4 +22,9 @@ def init_training():
 
 @train_bp.route("/process_selection", methods = ["POST"]) 
 def process_selection():
-    return redirect("/")
+    if "user_id" not in session:
+        return redirect("/")
+    selected_vocab_ids = request.form.getlist('vocab_ids')
+    vocabs = vocab_service.get_vocabset(session["user_id"], selected_vocab_ids)
+    return render_template("practiceFlash.html", vocabs = vocabs)
+
