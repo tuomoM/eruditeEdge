@@ -101,10 +101,11 @@ input[type="submit"]{
 
 .flashcard .front {
     z-index: 2;
+    padding: 10px;
 }
 
 .flashcard .back {
-    padding: 20px;
+    padding: 10px;
     transform: rotateY(180deg);
 }
 

@@ -14,7 +14,8 @@ def execute(sql, params=[]):
     g.last_insert_id = result.lastrowid
     con.close()
 
-def last_insert_id():
+
+def last_insert_id(): #what is this for?? to be deleted
     return g.last_insert_id    
     
 def query(sql, params=[]):
@@ -22,3 +23,10 @@ def query(sql, params=[]):
     result = con.execute(sql, params).fetchall()
     con.close()
     return result
+
+def execute_batch_insert(sql, params_list):
+    con = get_connection()
+    cursor = con.cursor()
+    cursor.executemany(sql, params_list)
+    con.commit()
+    con.close()

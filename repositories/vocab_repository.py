@@ -59,10 +59,19 @@ class VocabRepository:
             "SELECT id, word, w_description, example "
             "FROM vocabs "
             "WHERE (user_id = ? OR global_flag = 1) AND id IN ({})"
+            "ORDER BY RANDOM()"
         ).format(','.join(['?'] * len(ids)))
         
         params = [user_id]+ids
         result = db.query(sql,params)
         return result
-        
+    def save_training(self,user_id,vocab_hash, time_stamp ,vocab_ids):
+        sql1 = "INSERT INTO training_sessions (user_id,last_accessed, vocab_hash, success_rate) VALUES (?,?,?,?)"
+        db.execute(sql1,[user_id, time_stamp, vocab_hash,0.0])  
+        training_id = db.last_insert_id()
+
+        sql2 = "INSERT into raining_items (training_id,vocab_id,succes_rate) VALUES (?,?,?)"
+        params = [(training_id, vocab_id, 0) for vocab_id in vocab_ids]
+        db.execute_batch_insert(sql2,params)
+
 vocab_repository = VocabRepository()

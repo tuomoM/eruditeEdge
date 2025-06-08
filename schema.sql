@@ -13,4 +13,18 @@ CREATE TABLE vocabs(
     user_id INTEGER REFERENCES users
 
 );
+CREATE TABLE training_sessions(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES users,
+    last_accessed TIMESTAMP,
+    vocab_hash TEXT,
+    success_rate FLOAT
+);
+
+CREATE TABLE training_items(
+    id INTEGER PRIMARY KEY,
+    training_id INTEGER REFERENCES training_sessions,
+    vocab_id INTEGER REFERENCES vocabs,
+    success_rate FLOAT
+);
 

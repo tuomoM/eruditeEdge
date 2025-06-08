@@ -1,0 +1,22 @@
+{% extends "template.html" %}
+
+{% block title %}Maintain{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Vocabulary Test</h1>
+        <form action="/submit_test" method="POST">
+            <div class="vocab-questions">
+                {% for vocab in vocabs %}
+                <div class="question-item">
+                    <p><strong>Word:</strong> {{ vocab.word }}</p>
+                    <p><strong>Description:</strong> {{ vocab.w_description }}</p>
+                    <label for="answer-{{ vocab.id }}">Your Answer:</label>
+                    <input type="text" id="answer-{{ vocab.id }}" name="answers[{{ vocab.id }}]" required>
+                </div>
+                {% endfor %}
+            </div>
+            <button type="submit">Submit Test</button>
+        </form>
+    </div>
+ {% endblock %}

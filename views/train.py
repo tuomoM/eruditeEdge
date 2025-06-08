@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request,flash, redirect, session
 from services.vocab_service import vocab_service
-
+import random
 train_bp = Blueprint("train_fl", __name__)
 
 @train_bp.route("/train_fl/<string:search_term>", methods = ["POST", "GET"])
@@ -24,7 +24,10 @@ def init_training():
 def process_selection():
     if "user_id" not in session:
         return redirect("/")
-    selected_vocab_ids = request.form.getlist('vocab_ids')
+    practice_mode = request.form.get("practice_mode") 
+    selected_vocab_ids = request.form.getlist("vocab_ids")
     vocabs = vocab_service.get_vocabset(session["user_id"], selected_vocab_ids)
-    return render_template("practiceFlash.html", vocabs = vocabs)
-
+    if practice_mode == "flashcards":
+        return render_template("practiceFlash.html", vocabs = vocabs)
+    else:
+        return render_template("test.html", vocabs = vocabs)
