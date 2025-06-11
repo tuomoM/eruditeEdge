@@ -7,15 +7,28 @@ def get_connection():
     con.row_factory = sqlite3.Row
     return con
 
+#def execute(sql, params=[]):
+#    con = get_connection()
+#    result = con.execute(sql, params)
+#    con.commit()
+#    g.last_insert_id = result.lastrowid
+#    con.close()
 def execute(sql, params=[]):
     con = get_connection()
-    result = con.execute(sql, params)
+    cursor = con.cursor()
+    cursor.execute(sql, params)
     con.commit()
-    g.last_insert_id = result.lastrowid
+    
+    # Fetch the last inserted ID using last_insert_rowid()
+    cursor.execute("SELECT last_insert_rowid()")
+    last_insert_id = cursor.fetchone()[0]  # Fetch the row and get the first element
+    
+    g.last_insert_id = last_insert_id  # Store the integer ID
+    
+    cursor.close()
     con.close()
 
-
-def last_insert_id(): #what is this for?? to be deleted
+def last_insert_id(): 
     return g.last_insert_id    
     
 def query(sql, params=[]):

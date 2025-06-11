@@ -1,5 +1,6 @@
 from repositories.vocab_repository import VocabRepository
 from repositories.vocab_repository import vocab_repository as default_vocab_repository
+import hashlib, time
 
 
 class VocabService:
@@ -49,9 +50,49 @@ class VocabService:
     def get_vocabset(self,user_id:int, ids):
         return self._vocab_repository.get_vocabs_by_ids(user_id, ids)
         
+    def generate_hash(self,vocab_ids):
+        vocab_ids_copy = vocab_ids[:]
+        vocab_ids_copy.sort()
+        vocab_ids_str = ','.join(map(str, vocab_ids_copy))
+        hash_value = hashlib.sha256(vocab_ids_str.encode()).hexdigest()
+    
+        return hash_value
+    def get_training_id(self,user_id, vocab_ids):
+        vocab_hash = self.generate_hash(vocab_ids)
+        id = self._vocab_repository.get_training_id(user_id,vocab_hash)
+        if id == None:
+            result = self.save_training(user_id,vocab_ids, vocab_hash)
+            return result
+        else:
+            return id
+
+    def save_training(self, user_id, vocab_ids, vocab_hash):
+        time_stamp = time.time()
+        training_id = self._vocab_repository.save_training(user_id,vocab_hash,time_stamp,vocab_ids)
+        return training_id
+    
+    def check_answers(self,training_id, answers):
+        correct_answers = self._vocab_repository.get_answers(training_id)
+        results = []
+        for vocab in correct_answers:
+            vocab_id = vocab["id"]
+            correct_word = vocab["word"]
+            description = vocab["w_description"]
+            user_answer = answers.get(str(vocab_id), "").strip()
+            is_correct = user_answer.lower() == correct_word.lower()        
+            results.append({
+                "vocab_id": vocab_id,
+                "word": correct_word,
+                "users_answer": user_answer,
+                "description": description,
+                "correctness": is_correct
+             })
+   
+        return results
+    def update_training(self,training_id, success_rate:float):
+        time_stamp = time.time()
+        self._vocab_repository.update_training(training_id,success_rate,time_stamp)
+
 
 
 vocab_service = VocabService()
-
-
-        

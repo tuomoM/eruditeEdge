@@ -9,7 +9,7 @@
             <div class="vocab-questions">
                 {% for vocab in vocabs %}
                 <div class="question-item">
-                    <p><strong>Word:</strong> {{ vocab.word }}</p>
+                    <p><strong>Word:</strong> </p>
                     <p><strong>Description:</strong> {{ vocab.w_description }}</p>
                     <label for="answer-{{ vocab.id }}">Your Answer:</label>
                     <input type="text" id="answer-{{ vocab.id }}" name="answers[{{ vocab.id }}]" required>

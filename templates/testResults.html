@@ -1,0 +1,22 @@
+{% extends "template.html" %}
+
+{% block title %}Test Results{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Test Results</h1>
+    <p>Total Questions: {{ total_questions }}</p>
+    <p>Total Correct: {{ total_correct }}</p>
+
+    <div class="result-details">
+        {% for result in results %}
+        <div class="result-item">
+            <p><strong>Word:</strong> {{ result.word }}</p>
+            <p><strong>Description:</strong> {{ result.description }}</p>
+            <p><strong>Your Answer:</strong> {{ result.users_answer }}</p>
+            <p><strong>Correctness:</strong> {{ 'Correct' if result.correctness else 'Incorrect' }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

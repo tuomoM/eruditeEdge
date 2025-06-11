@@ -65,13 +65,41 @@ class VocabRepository:
         params = [user_id]+ids
         result = db.query(sql,params)
         return result
+    
+    def get_training_id(self,user_id,vocab_hash):
+        sql = """SELECT id FROM training_sessions WHERE user_id = ? AND vocab_hash = ?"""
+        result = db.query(sql,[user_id,vocab_hash])
+        if result:
+            id = result[0][0]
+            return id
+        else:
+            return None
+
+
+
     def save_training(self,user_id,vocab_hash, time_stamp ,vocab_ids):
         sql1 = "INSERT INTO training_sessions (user_id,last_accessed, vocab_hash, success_rate) VALUES (?,?,?,?)"
         db.execute(sql1,[user_id, time_stamp, vocab_hash,0.0])  
         training_id = db.last_insert_id()
-
-        sql2 = "INSERT into raining_items (training_id,vocab_id,succes_rate) VALUES (?,?,?)"
+        
+        sql2 = "INSERT into training_items (training_id,vocab_id,success_rate) VALUES (?,?,?)"
         params = [(training_id, vocab_id, 0) for vocab_id in vocab_ids]
         db.execute_batch_insert(sql2,params)
+        return training_id
+    
+    def get_answers(self,training_id):
+        sql = """SELECT b.id, b.word, b.w_description 
+                 FROM training_items AS a 
+                 JOIN vocabs AS b ON a.vocab_id = b.id 
+                 WHERE a.training_id = ?"""
+        result = db.query(sql,[training_id])
+        return result
+    
+
+    def update_training(self,training_id, success_rate, time_stamp):
+        sql = """UPDATE training_sessions set success_rate = ?, last_accessed = ? WHERE id = ?"""
+        db.execute(sql,[success_rate,time_stamp, training_id])
+       
+
 
 vocab_repository = VocabRepository()
