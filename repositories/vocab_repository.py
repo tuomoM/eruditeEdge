@@ -9,7 +9,11 @@ class VocabRepository:
         sql = "INSERT into vocabs (global_flag,word,w_description,example,synonyms,user_id) VALUES (?,?,?,?,?,?)"
         db.execute(sql,[0,word,description,example,synonums,user_id ])
        
-
+    def count_users_vocabs(self, user_id: int ):
+        sql = """SELECT COUNT(*) FROM vocabs WHERE user_id = ?"""
+        result = db.query(sql,[user_id])
+        return result[0]
+    
     def get_vocabs(self, user_id : int):
         sql = """SELECT id, word, w_description, example, synonyms, user_id, global_flag from vocabs where user_id = ? 
                OR global_flag = 1  
@@ -100,6 +104,12 @@ class VocabRepository:
         sql = """UPDATE training_sessions set success_rate = ?, last_accessed = ? WHERE id = ?"""
         db.execute(sql,[success_rate,time_stamp, training_id])
        
-
+    def get_users_trainings(self, user_id):
+        sql = """Select a.id AS id, a.success_rate AS succes_rate, a.last_accessed AS last_accessed,
+          COUNT(b.id) AS no_of_vocabs FROM training_sessions AS a LEFT JOIN training_items AS b 
+          ON a.id = b.training_id WHERE a.user_id = ?
+          GROUP BY a.id, a.user_id, a.success_rate, a.last_accessed"""
+        result = db.query(sql,[user_id])
+        return result
 
 vocab_repository = VocabRepository()

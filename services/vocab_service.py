@@ -93,6 +93,11 @@ class VocabService:
         time_stamp = time.time()
         self._vocab_repository.update_training(training_id,success_rate,time_stamp)
 
-
+    def get_vocab_count(self, user_id):
+        return self._vocab_repository.count_users_vocabs(user_id)
+    
+    def get_users_trainings(self, user_id):
+        return self._vocab_repository.get_users_trainings(user_id)
+    
 
 vocab_service = VocabService()
