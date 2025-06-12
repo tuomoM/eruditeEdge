@@ -42,7 +42,6 @@ def submit_test():
     if "training_id" not in session:
         return redirect("/init_training")
     training_id = session["training_id"]
-    #
     answers = request.form.get("answers",{})
     form_data = request.form.to_dict()
     for keys in form_data:
@@ -55,4 +54,10 @@ def submit_test():
     vocab_service.update_training(training_id,total_correct/total_queried)
     return render_template('testResults.html', results=results, total_questions=total_queried, total_correct=total_correct)
 
-    
+@train_bp.route("/delete_training/<int:id>", methods = ["POST","GET"])
+def delete_training(id:int):
+    if "user_id" not in session:
+        return redirect("/")
+    vocab_service.delete_training(id,session["user_id"])
+    return redirect("/user_info")
+        

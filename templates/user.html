@@ -3,23 +3,41 @@
 {% block title %} User home {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="User_stats">
     <h1>User {{session.username}}</h1>
-    <p>Total training sessions: {{ total_trainings}}</p>
-    <p>Total vocabs created: {{ total_vocabs }}</p>
+    <p><strong> training sessions: {{ total_trainings}}</strong></p>
+    <p><strong> vocabs created: {{ total_vocabs }}</strong></p>
+    <p><strong>vocabs marked global: {{ total_global }}</strong></p>
 
-    <div class="User-details">
-        <form action="/load_training" method="POST"></form>
-        <div class="Training sessions">
-        {% for training in trainings %}
-            <p></p>
-             <input type="radio" id="training_id-{{ training.id }}" name="training_id" value="{{ training.id }}">
-              <label for="training-{{ training.id }}">{{ training.id }} Last Success rate {{training.success_rate}}, Last accessed , Total vocabs: {{training.no_of_vocabs}}</label>
-            </p>
-        {% endfor %}
-        </div>
-        <button type="submit">Retake test</button>
-    </form>
-    </div>
 </div>
+
+
+<div class="user_training"s>
+    <strong> Training sets done</strong>
+     {% if trainings %}
+     <table>
+      <tr>
+        <th>Id</th>
+        <th>Last accessed</th>
+        <th>Success rate</th>
+        <th> Number of vocabs in set</th>
+        <th></th>
+        <th></th>
+      </tr>
+      {% for training in trainings %}
+       <tr>
+         <td> {{training.id}}</td>
+         <td>{{ training.last_accessed }}</td>
+         <td>{{ training.success_rate }}</td>
+         <td>{{ training.no_of_vocabs}}</td>
+         <td><a href="/train_id/{{training.id}}"> Retake test</a></td>
+         <td><a href="/delete_training/{{training.id}}"><img src="/static/delete_icon.png" alt="Delete set" width="30" height="20"></a></td>
+       </tr> 
+      {% endfor %}
+
+    </table>
+  {% endif %}
+
+</div>
+
 {% endblock %}

@@ -112,3 +112,8 @@ input[type="submit"]{
 .card-checkbox:checked + label {
     transform: rotateY(180deg);
 }
+.User_stats{
+    border: 2px solid lightgray;
+    padding: 5px;
+    
+}

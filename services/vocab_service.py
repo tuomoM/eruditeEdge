@@ -1,6 +1,7 @@
 from repositories.vocab_repository import VocabRepository
 from repositories.vocab_repository import vocab_repository as default_vocab_repository
 import hashlib, time
+from datetime import datetime
 
 
 class VocabService:
@@ -67,7 +68,8 @@ class VocabService:
             return id
 
     def save_training(self, user_id, vocab_ids, vocab_hash):
-        time_stamp = time.time()
+        time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S') 
+
         training_id = self._vocab_repository.save_training(user_id,vocab_hash,time_stamp,vocab_ids)
         return training_id
     
@@ -90,14 +92,22 @@ class VocabService:
    
         return results
     def update_training(self,training_id, success_rate:float):
-        time_stamp = time.time()
+        time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S') 
         self._vocab_repository.update_training(training_id,success_rate,time_stamp)
 
     def get_vocab_count(self, user_id):
         return self._vocab_repository.count_users_vocabs(user_id)
-    
-    def get_users_trainings(self, user_id):
-        return self._vocab_repository.get_users_trainings(user_id)
-    
+    def get_users_vocab_stats(self, user_id):
+        return self._vocab_repository.get_users_vocab_stats(user_id)
 
+
+    def get_users_trainings(self, user_id):
+        result= self._vocab_repository.get_users_trainings(user_id)
+        
+        return result
+    def delete_training(self,training_id, user_id ):
+        owner = self._vocab_repository.get_training_owner(training_id)[0]
+        if user_id is not owner:
+            return "Error: Not possible to delete other users sessions"
+        self._vocab_repository.delete_training(training_id,user_id)
 vocab_service = VocabService()

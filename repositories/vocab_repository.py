@@ -9,8 +9,15 @@ class VocabRepository:
         sql = "INSERT into vocabs (global_flag,word,w_description,example,synonyms,user_id) VALUES (?,?,?,?,?,?)"
         db.execute(sql,[0,word,description,example,synonums,user_id ])
        
-    def count_users_vocabs(self, user_id: int ):
+    def count_users_vocabs(self, user_id: int ): # To be replaced
         sql = """SELECT COUNT(*) FROM vocabs WHERE user_id = ?"""
+        result = db.query(sql,[user_id])
+        return result[0]
+    
+    def get_users_vocab_stats(self, user_id):
+        sql = """SELECT COUNT(id) as no_of_vocabs, SUM(global_flag) as total_global
+                 FROM vocabs
+                 WHERE user_id = ?"""
         result = db.query(sql,[user_id])
         return result[0]
     
@@ -79,7 +86,10 @@ class VocabRepository:
         else:
             return None
 
-
+    def get_training_owner(self,training_id):
+        sql = "SELECT user_id from training_sessions where id = ?"
+        result = db.query(sql,[training_id])
+        return result[0]
 
     def save_training(self,user_id,vocab_hash, time_stamp ,vocab_ids):
         sql1 = "INSERT INTO training_sessions (user_id,last_accessed, vocab_hash, success_rate) VALUES (?,?,?,?)"
@@ -105,11 +115,15 @@ class VocabRepository:
         db.execute(sql,[success_rate,time_stamp, training_id])
        
     def get_users_trainings(self, user_id):
-        sql = """Select a.id AS id, a.success_rate AS succes_rate, a.last_accessed AS last_accessed,
+        sql = """Select a.id AS id, PRINTF("%.1f%%",a.success_rate*100) AS success_rate, a.last_accessed AS last_accessed,
           COUNT(b.id) AS no_of_vocabs FROM training_sessions AS a LEFT JOIN training_items AS b 
           ON a.id = b.training_id WHERE a.user_id = ?
-          GROUP BY a.id, a.user_id, a.success_rate, a.last_accessed"""
+          GROUP BY a.id, a.success_rate, a.last_accessed"""
         result = db.query(sql,[user_id])
         return result
-
+    def delete_training(self, training_id, user_id):
+        sql1 = "DELETE FROM training_items where training_id = ?"
+        db.execute(sql1,[training_id])
+        sql2 = "DELETE FROM training_sessions where user_id = ? AND id = ?"
+        db.execute(sql2,[user_id,training_id])
 vocab_repository = VocabRepository()
