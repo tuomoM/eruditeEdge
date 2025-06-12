@@ -46,7 +46,7 @@ def submit_test():
     form_data = request.form.to_dict()
     for keys in form_data:
         if "answer" in keys:
-            answers[keys.split("[")[1].split("]")[0]] = form_data[keys]
+            answers[keys.split("-")[1]] = form_data[keys]
 
     results = vocab_service.check_answers(training_id,answers)
     total_queried = len(results)

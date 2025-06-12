@@ -12,7 +12,7 @@
                     <p><strong>Word:</strong> </p>
                     <p><strong>Description:</strong> {{ vocab.w_description }}</p>
                     <label for="answer-{{ vocab.id }}">Your Answer:</label>
-                    <input type="text" id="answer-{{ vocab.id }}" name="answers[{{ vocab.id }}]" required>
+                    <input type="text" id="answer-{{ vocab.id }}" name="answers-{{ vocab.id }}" required>
                 </div>
                 {% endfor %}
             </div>
