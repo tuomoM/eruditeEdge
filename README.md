@@ -11,10 +11,10 @@
 - User is able to test his knowledge on chosen set of vocabs. the statistics are saved for this particular set. 
 - Application has user pager that shows statistic about the user
 - User is able to open a previously practiced set of vocabs and he is shown the test result from previous time he did the set
-
+- Clean up the code in test submit to remove "[]" as the original solution did not work
 
 ### Planned updates
-- Clean up the code in test submit to remove "[]" as the original solution did not work
+
 - Restructure the blueprints to have just 3 blueprints in total
 - Implement handling for local / global for vocabs. currently set as 0 local and 1 global
 - Restructure the application, to have more easy to operate. ie. landing page should be the user info page and search could be elsewhere
