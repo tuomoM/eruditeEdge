@@ -1,0 +1,26 @@
+{% extends "template.html" %}
+
+{% block title %}Viw{% endblock %}
+
+{% block content %}
+    <div class="vocab">
+      <p>
+        <Strong>{{vocab.word}}</Strong>
+      </p>
+      <p>
+        {{vocab.w_description}}
+      </p>
+      <p>
+        {{vocab.example}}
+      </p>
+      <p>
+        {{vocab.synonyms}}
+      </p>
+      <p>
+        {{vocab.synonyms}}
+      </p>
+      <p>
+      {{vocab.global_flag}}
+      </p>
+
+  {% endblock %}

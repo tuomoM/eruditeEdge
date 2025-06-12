@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, request,flash, redirect, session
 from services.vocab_service import vocab_service
 
-maintain_bp = Blueprint("maintain", __name__)
+vocab_bp = Blueprint("vocab", __name__)
 
-@maintain_bp.route("/maintain", methods = ["POST", "GET"])
+@vocab_bp.route("/maintain", methods = ["POST", "GET"])
 def maintain():
     if "user_id" not in session:
         return redirect("/")
@@ -23,3 +23,10 @@ def maintain():
 
 
     return render_template("maintain.html", vocabs = vocabs)
+
+@vocab_bp.route("/view/<int:id>", methods = ["POST", "GET"])
+def view(id:int):
+    if "user_id" not in session:
+        return redirect("/")
+    vocab = vocab_service.get_vocab(id)
+    return render_template("view.html", vocab = vocab)    
