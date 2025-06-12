@@ -110,4 +110,12 @@ class VocabService:
         if user_id is not owner:
             return "Error: Not possible to delete other users sessions"
         self._vocab_repository.delete_training(training_id,user_id)
+
+    def get_training_set(self,training_id, user_id):
+        owner = self._vocab_repository.get_training_owner(training_id)[0]
+        if user_id is not owner:
+            return "Error: Not possible to test other users sessions"
+        vocabs = self._vocab_repository.get_answers(training_id)
+        return vocabs
+
 vocab_service = VocabService()

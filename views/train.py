@@ -60,4 +60,15 @@ def delete_training(id:int):
         return redirect("/")
     vocab_service.delete_training(id,session["user_id"])
     return redirect("/user_info")
+
+@train_bp.route("/test_id/<int:id>", methods = ["POST","GET"])
+def test_id(id:int):
+    if "user_id" not in session:
+        return redirect("/")
+    session["training_id"] = id
+    vocabs = vocab_service.get_training_set(id,session["user_id"])
+    if "error" in vocabs:
+        flash(vocabs)
+        return redirect("/user_info")
+    return render_template("test.html", vocabs = vocabs)
         
