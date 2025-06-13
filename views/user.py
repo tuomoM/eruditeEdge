@@ -25,18 +25,27 @@ def login():
     return render_template("login.html", username = username)
 
 
-@user_bp.route("/user_info", methods = ["POST","GET"])
 
-def user_info():
-    if "user_id" not in session:
-        return redirect("/")
-    user_id = session["user_id"]
-    vocab_stats = vocab_service.get_users_vocab_stats(user_id)
-
-    total_vocabs = vocab_stats[0]
-    total_global = vocab_stats[1]
-    training_sessions = vocab_service.get_users_trainings(user_id)
-    total_trainings = len(training_sessions)
-    return render_template("user.html",trainings = training_sessions, total_trainings = total_trainings, total_vocabs = total_vocabs, total_global = total_global)
     
     
+@user_bp.route("/register", methods = ["POST", "GET"])
+def register():
+    username = ""
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        password2 = request.form["password2"]
+        return_value = user_service.register(username,password, password2)
+        if type(return_value)==int:
+            session["username"] = username
+            session["user_id"] = return_value
+            return redirect("/")
+        flash(return_value, "error" )
+       
+    
+    return render_template("register.html", username = username)
+
+@user_bp.route("/logout", methods = ["GET"])
+def logout():
+    del session["username"],session["user_id"]
+    return redirect("/")

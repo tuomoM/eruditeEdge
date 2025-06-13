@@ -125,3 +125,8 @@ input[type="submit"]{
     padding: 5px;
     
 }
+.example{
+    border: 1px solid lightgray;
+    padding: 5px;
+    background-color: rgb(215, 215, 214);
+}

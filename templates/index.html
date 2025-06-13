@@ -3,51 +3,30 @@
 {% block title %}Main page{% endblock %}
 
 {% block content %}
-<h2>Main</h2>
+<h2>Welcome to eruditeEdge</h2>
 
-{% for message in get_flashed_messages() %}
-<p class="info">
-  {{ message }}
-</p>
-{% endfor %}
-{% if session.user_id %}
-<h2>Find vocabs</h2>
-<p><italic>You can search for your own vocabs and vocabs marked as global. Write a word or part of the word witout any addtional characters.</italic></p>
+eruditeEdge is a tool for practicing vocabulary in style of GRE vocabulary testing.
+The collection of vocabularies is community driven and users can add their own vocabs and publish them as global to allow other users to include them in their trainings.
+<br>
+<div>
+  Currently in database we have total of {{total_vocabs}} vocabs
+</div>
+<br>
 
-<form action = "/" method="POST">
-  <p>
-    <label for="search">Search term</label>: <br />
-    <input type="text" name="search_t" id ="search" />
-  </p>
-  <p>
-    <input type="submit" value = "search">
-  </p>
-</form>
+<div class="example">
+   <div class="vocab">
+    <strong>Erudite</strong>
+   </div>
+   <div class ="vocab_example">
+    <i>having or showing knowledge that is gained by studying : possessing or displaying erudition</i>
+   </div>
+   <div>
+    <label for="synonyms"  >Synonyms</label>
+    <div class ="synonyms" id = "synonyms">educated, well-read</div>
+   </div>
+
+</div>
 
 
-  {% if vocabs %}
-     <form action="/train_fl/{{search_t}}" method="POST">
-      <input type="submit" value = "Practice selection with Flashcards" name = "train" >
-     </form> 
-     <table>
-      <tr>
-        <th>Word</th>
-        <th>Desription</th>
-        <th>Example sentence</th>
-        <th>Synonyms</th>
-        <th>Visibility</th>
-      </tr>
-      {% for vocab in vocabs %}
-       <tr>
-         <td><a href="/view/{{ vocab.id }}" > {{vocab.word}}</a></td>
-         <td>{{ vocab.w_description }}</td>
-         <td>{{ vocab.example }}</td>
-         <td>{{ vocab.synonyms }}</td>
-         <td>{{ vocab.flag_description }}</td>
-       </tr> 
-      {% endfor %}
 
-    </table>
-  {% endif %}
-{% endif %}
 {% endblock %}

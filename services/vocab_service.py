@@ -120,4 +120,7 @@ class VocabService:
     def get_vocab_categories(self):
         return self._vocab_repository.get_global_flag_values()
     
+    def get_total_no_of_vocabs(self):
+        return self._vocab_repository.get_total_no_of_vocabs()
+    
 vocab_service = VocabService()

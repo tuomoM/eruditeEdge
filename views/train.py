@@ -71,4 +71,17 @@ def test_id(id:int):
         flash(vocabs)
         return redirect("/user_info")
     return render_template("test.html", vocabs = vocabs)
-        
+
+@train_bp.route("/user_info", methods = ["POST","GET"])
+
+def user_info():
+    if "user_id" not in session:
+        return redirect("/")
+    user_id = session["user_id"]
+    vocab_stats = vocab_service.get_users_vocab_stats(user_id)
+
+    total_vocabs = vocab_stats[0]
+    total_global = vocab_stats[1]
+    training_sessions = vocab_service.get_users_trainings(user_id)
+    total_trainings = len(training_sessions)
+    return render_template("user.html",trainings = training_sessions, total_trainings = total_trainings, total_vocabs = total_vocabs, total_global = total_global)

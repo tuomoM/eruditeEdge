@@ -145,4 +145,11 @@ class VocabRepository:
         sql = "SELECT status_id, status_description FROM vocab_categories"
         result = db.query(sql,[])
         return result
+    
+
+    def get_total_no_of_vocabs(self):
+        sql = "SELECT COUNT(id) as no_of_vocabs from vocabs"
+        result = db.query(sql,[])
+        return result
+    
 vocab_repository = VocabRepository()

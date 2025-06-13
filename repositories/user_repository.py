@@ -9,7 +9,7 @@ class UserRepository:
     def create_user(self,username:str,password:str):
         sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
         db.execute(sql,[username, password])
-        return db.query("SELECT id from users WHERE username = ?", [username])
+        return db.query("SELECT id from users WHERE username = ?", [username])[0][0]
     
     def login_get(self,username: str, password: str):
         sql = "SELECT id, password_hash FROM users WHERE username = ?"
