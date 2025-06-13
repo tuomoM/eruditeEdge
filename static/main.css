@@ -8,10 +8,18 @@ body {
 
 }
 .nav {
+  display: flex;
+ 
   background-color: beige;
   font-style: italic;
   font-size: 10;
+  align-items: left;
     
+
+}
+.nav_item{
+  align-content: left;
+  padding: 5px;
 
 }
 table {
