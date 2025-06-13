@@ -29,6 +29,13 @@
             <input type="text" name="synonyms" size = 50 id = "synonyms"/>
 
         </p>
+        <p>
+            <select id ="global_flag" name="global_flag" required>
+                {% for visibility in visibilities %}
+                   <option value = {{visibility.status_id}} >{{visibility.status_description}}</option>
+                {% endfor %}
+            </select>  
+        </p>
          <input type="submit" value="Save" />
     </form>
   

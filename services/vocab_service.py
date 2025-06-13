@@ -8,7 +8,7 @@ class VocabService:
     def __init__(self,vocab_repository:VocabRepository = default_vocab_repository )-> None:
         self._vocab_repository = vocab_repository
 
-    def add_vocab(self, word: str,description: str, example: str, synonums: str, user_id:int):
+    def add_vocab(self, word: str,description: str, example: str, synonums: str, user_id:int, global_flag:int):
         if not word:
             return "Please input a vocab word"
         if not description:
@@ -21,7 +21,7 @@ class VocabService:
             return "Please input synonyms for word:" + word
         if self._vocab_repository.vocab_exists(word):
             return "Word already exists in database"
-        self._vocab_repository.save_vocabs(word,description,example,synonums,user_id)
+        self._vocab_repository.save_vocabs(word,description,example,synonums,user_id,global_flag)
 
     def get_vocabs(self,user_id):
         return self._vocab_repository.get_vocabs(user_id)

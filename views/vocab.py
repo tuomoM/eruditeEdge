@@ -18,16 +18,17 @@ def maintain():
         description = request.form["description"]
         example = request.form["example"]
         synomyms = request.form["synonyms"]
-        error = vocab_service.add_vocab(word,description,example,synomyms,session["user_id"])
+        global_flag = request.form["global_flag"]
+        error = vocab_service.add_vocab(word,description,example,synomyms,session["user_id"],global_flag)
         if error:
             flash(error, "error")
     
     vocabs = vocab_service.get_vocabs(session["user_id"])
- 
+    visibilities = vocab_service.get_vocab_categories()
     
 
 
-    return render_template("maintain.html", vocabs = vocabs)
+    return render_template("maintain.html", vocabs = vocabs, visibilities = visibilities)
 
 @vocab_bp.route("/view/<int:id>", methods = ["POST", "GET"])
 def view(id:int):

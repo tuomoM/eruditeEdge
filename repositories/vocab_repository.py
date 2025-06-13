@@ -5,9 +5,9 @@ class VocabRepository:
         sql = "Select id from vocabs where word = ?"
         return db.query(sql,[word])
     
-    def save_vocabs(self, word: str, description: str, example: str, synonums: str, user_id:int ):
+    def save_vocabs(self, word: str, description: str, example: str, synonums: str, user_id:int,global_flag:int ):
         sql = "INSERT into vocabs (global_flag,word,w_description,example,synonyms,user_id) VALUES (?,?,?,?,?,?)"
-        db.execute(sql,[0,word,description,example,synonums,user_id ])
+        db.execute(sql,[global_flag,word,description,example,synonums,user_id ])
        
     def count_users_vocabs(self, user_id: int ): # To be replaced
         sql = """SELECT COUNT(*) FROM vocabs WHERE user_id = ?"""

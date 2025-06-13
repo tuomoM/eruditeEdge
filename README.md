@@ -16,8 +16,7 @@
 
 ### Planned updates
 
-- Restructure the blueprints to have just 3 blueprints in total, implement the before methods to cover all the needed checks within blueprint
-- Restructure the application, to have more easy to operate. ie. landing page should be the user info page and search could be elsewhere
+- implement the before functions across the blueprint
 - Implement CSRF checking
 
 
