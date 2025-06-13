@@ -117,5 +117,7 @@ class VocabService:
             return "Error: Not possible to test other users sessions"
         vocabs = self._vocab_repository.get_answers(training_id)
         return vocabs
-
+    def get_vocab_categories(self):
+        return self._vocab_repository.get_global_flag_values()
+    
 vocab_service = VocabService()

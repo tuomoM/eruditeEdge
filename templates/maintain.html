@@ -41,8 +41,8 @@
         <th>Word</th>
         <th>Desription</th>
         <th>Example sentence</th>
-        <th> synonyms</th>
-        <th>global flag</th>
+        <th>Synonyms</th>
+        <th>Visibility</th>
       </tr>
       {% for vocab in vocabs %}
        <tr>
@@ -54,7 +54,7 @@
          <td>{{ vocab.w_description }}</td>
          <td>{{ vocab.example }}</td>
          <td>{{ vocab.synonyms }}</td>
-         <td>{{ vocab.global_flag }}</td>
+         <td>{{ vocab.flag_description }}</td>
        </tr> 
       {% endfor %}
 

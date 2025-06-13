@@ -22,9 +22,14 @@ class VocabRepository:
         return result[0]
     
     def get_vocabs(self, user_id : int):
-        sql = """SELECT id, word, w_description, example, synonyms, user_id, global_flag from vocabs where user_id = ? 
-               OR global_flag = 1  
-               ORDER BY CASE WHEN user_id = ? THEN 0 ELSE 1 END"""
+        sql = """SELECT a.id as id, a.word as word, a.w_description as w_description,
+               a.example as example, a.synonyms as synonums, a.user_id as user_id, 
+               a.global_flag as global_flag, b.status_description as flag_description
+               FROM vocabs as a LEFT JOIN vocab_categories as b ON a.global_flag = b.status_id WHERE user_id = ? 
+               OR global_flag = 1
+               GROUP BY a.id  
+               ORDER BY CASE WHEN user_id = ? THEN 0 ELSE 1 END
+               """
         result_set = db.query(sql,[user_id,user_id])
         return result_set 
     def edit_vocab(self,word:str, description:str, example:str, synonyms:str, global_flag:int, id:int):
@@ -52,14 +57,22 @@ class VocabRepository:
         return db.query(sql,[id])
     
     def get_vocab(self,id):
-        sql = "SELECT id, word, w_description, example, synonyms, user_id, global_flag from vocabs where id = ? "
+        sql = """SELECT a.id as id, a.word as word, a.w_description as w_description,
+        a.example as example, a.synonyms as synonums, a.user_id as user_id, a.global_flag as global_flag, 
+        b.status_description from vocabs as a
+        LEFT JOIN  vocab_categories as b ON a.global_flag = b.status_id  where a.id = ?
+        GROUP BY a.id """
         result = db.query(sql, [id])
         return result[0] if result else None
         
     def find_vocabs(self,search_string:str, user_id:int):
-        sql = """SELECT id, word, w_description, example, synonyms, user_id, global_flag from vocabs 
+        sql = """SELECT a.id as id, a.word as word, a.w_description as w_description, a.example as example,
+               a.synonyms as synonyms, a. user_id as user_id, a.global_flag as global_flag,
+               b.status_description as flag_description 
+               FROM vocabs as a LEFT JOIN vocab_categories as b ON a.global_flag = b.status_id 
                where (user_id = ? AND word like ?)
                OR (global_flag = 1  AND word like ?)
+               GROUP by a.id
                ORDER BY CASE WHEN user_id = ? THEN 0 ELSE 1 END"""
         like = "%" + search_string + "%"
         result = db.query(sql,[user_id,like,like, user_id])
@@ -126,4 +139,10 @@ class VocabRepository:
         db.execute(sql1,[training_id])
         sql2 = "DELETE FROM training_sessions where user_id = ? AND id = ?"
         db.execute(sql2,[user_id,training_id])
+
+
+    def get_global_flag_values(self):
+        sql = "SELECT status_id, status_description FROM vocab_categories"
+        result = db.query(sql,[])
+        return result
 vocab_repository = VocabRepository()

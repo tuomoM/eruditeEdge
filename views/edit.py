@@ -10,9 +10,11 @@ def edit(id:int):
         return redirect("/")
     
     vocab = vocab_service.get_vocab(id)
+    visibilities = vocab_service.get_vocab_categories()
+
     if session["user_id"] != vocab["user_id"]:
         return redirect("/maintain")
      
 
 
-    return render_template("/edit.html", vocab = vocab)
+    return render_template("/edit.html", vocab = vocab, visibilities = visibilities)

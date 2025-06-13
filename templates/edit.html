@@ -5,29 +5,39 @@
 {% block content %}
     <form action="/update/{{vocab.id}}" method="POST">
         <p>
-            <label for="word">word</label>: <br />
-            <input type="text" name="word" value = "{{vocab.word}}" id ="word" />
+            <label for="word">Word</label>: <br />
+            <input type="text" name="word" value = "{{vocab.word}}" id ="word" required/>
         </p>
         <p>
             <label for="description">Description</label>: <br />
-            <input type="text" name="description" size = 100 value = "{{ vocab.w_description }}" id = "description"/>
+            <input type="text" name="description" size = 100 value = "{{ vocab.w_description }}" id = "description" required/>
 
         </p>
             <p>
             <label for="example">Example sentence</label>: <br />
-            <input type="text" name="example" size = 100 value = "{{ vocab.example }}" id = "example"/>
+            <input type="text" name="example" size = 100 value = "{{ vocab.example }}" id = "example" required/>
 
         </p>
         
         <p>
             <label for="synonyms">Synonyms</label>: <br />
-            <input type="text" name="synonyms" size = 50 value = "{{vocab.synonyms}}" id = "synonyms"/>
+            <input type="text" name="synonyms" size = 50 value = "{{vocab.synonyms}}" id = "synonyms" required />
 
         </p>
 
         <p>
-            <label for="global_flag">global</label>: <br />
-            <input type="number" name="global_flag" size = 1 min = 0 max = 1 value = "{{vocab.global_flag}}" id = "global_flag"/>
+            <label for="global_flag">Visibility</label>: <br />
+            <select id ="global_flag" name="global_flag" required>
+                {% for visibility in visibilities %}
+                  {% if vocab.global_flag == visibility.status_id %}
+                  <option value = {{visibility.status_id}} selected> {{visibility.status_description}} </option>
+                  {% else %}
+                <option value = {{visibility.status_id}} >{{visibility.status_description}}</option>
+                  {% endif %}
+
+                {% endfor %}
+            </select> 
+            
 
         </p>
         <p>

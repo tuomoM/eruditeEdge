@@ -28,3 +28,9 @@ CREATE TABLE training_items(
     success_rate FLOAT
 );
 
+CREATE TABLE vocab_categories(
+    id INTEGER PRIMARY KEY,
+    status_id INTEGER UNIQUE,
+    status_description TEXT
+);
+
