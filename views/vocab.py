@@ -30,3 +30,69 @@ def view(id:int):
         return redirect("/")
     vocab = vocab_service.get_vocab(id)
     return render_template("view.html", vocab = vocab)    
+
+@vocab_bp.route("/edit/<int:id>", methods = ["POST", "GET"])
+def edit(id:int):
+   
+    if "user_id" not in session:
+        return redirect("/")
+    
+    vocab = vocab_service.get_vocab(id)
+    visibilities = vocab_service.get_vocab_categories()
+
+    if session["user_id"] != vocab["user_id"]:
+        return redirect("/maintain")
+     
+    return render_template("/edit.html", vocab = vocab, visibilities = visibilities)
+
+@vocab_bp.route("/update/<int:id>", methods = ["POST"])
+def update(id:int):
+    if not session["user_id"]:
+        return redirect("/")
+    
+ 
+
+    
+    if request.method == "POST":
+        if "user_id" not in session:
+            return redirect("/")
+        vocab = vocab_service.get_vocab(id)
+        if session["user_id"] != vocab["user_id"]:
+            flash("You cannot edit vocabs created by other users")
+            return render_template("/edit.html", vocab = vocab)        
+        if "delete" in request.form:
+            result = vocab_service.delete_vocab(vocab["id"])
+            if result:
+                flash(result)
+                return render_template("/edit.htlm", vocab = vocab)
+            return redirect("/maintain")
+      
+
+        word = request.form["word"]
+        description = request.form["description"]
+        example = request.form["example"]
+        synonyms = request.form["synonyms"]
+        global_flag = request.form["global_flag"]
+        error = vocab_service.edit_vocab(vocab ,word, description, example, synonyms, global_flag)
+        if error:
+            flash(error, "error")
+            return render_template("/edit.html", vocab = vocab)
+        return redirect("/maintain")
+    
+@vocab_bp.route("/", methods = ["POST", "GET"])
+def main():
+    
+    if "user_id" in session:
+        if request.method == "POST":
+           
+            
+            
+            search_term = request.form["search_t"]
+            vocabs = vocab_service.find_by_word(search_term, session["user_id"])
+            if vocabs:
+                return render_template("index.html", vocabs = vocabs, search_t = search_term) 
+            else:
+                flash("No entries found")
+                
+    
+    return render_template("index.html")
