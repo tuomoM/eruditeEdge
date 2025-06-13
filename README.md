@@ -16,7 +16,7 @@
 
 ### Planned updates
 
-- Restructure the blueprints to have just 3 blueprints in total
+- Restructure the blueprints to have just 3 blueprints in total, implement the before methods to cover all the needed checks within blueprint
 - Restructure the application, to have more easy to operate. ie. landing page should be the user info page and search could be elsewhere
 - Implement CSRF checking
 
@@ -26,6 +26,16 @@
 
 ## Installation 
 
+Create database:
+```
+$ sqlite3 database.db < schema.sql
+
+```
+Initialize the database
+```
+$ sqlite3 database.db < init.sql
+
+```
 Install virtual environment
 ```
 $ python3 -m venv venv
@@ -40,10 +50,8 @@ Install `flask`-library:
 $ pip install flask
 ```
 
-Create database:
 
-```
-$ sqlite3 database.db < schema.sql
+
 
 ```
 
