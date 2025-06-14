@@ -26,6 +26,9 @@ def process_selection():
         return redirect("/")
     practice_mode = request.form.get("practice_mode") 
     selected_vocab_ids = request.form.getlist("vocab_ids")
+    if len(selected_vocab_ids) < 2:
+        flash("Option only available with 2 or more vocabs")
+        return redirect("/init_training")
     training_id = vocab_service.get_training_id(session["user_id"],selected_vocab_ids)
     session["training_id"] = training_id
 
