@@ -13,12 +13,13 @@
 - User is able to open a previously practiced set of vocabs and he is shown the test result from previous time he did the set
 - Clean up the code in test submit to remove "[]" as the original solution did not work
 - Implement handling for local / global for vocabs category handling for vocabs.
+- Implement way to go from flashcard training to test directly.
 
 ### Planned updates
 
 - implement the before functions across the blueprint
 - Implement CSRF checking
-- Implement way to go from flashcard training to test directly.
+
 
 
 
