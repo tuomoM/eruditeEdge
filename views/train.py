@@ -1,12 +1,13 @@
 from flask import Blueprint, render_template, request,flash, redirect, session
 from services.vocab_service import vocab_service
-import random
 train_bp = Blueprint("train", __name__)
-
-@train_bp.route("/train_fl/<string:search_term>", methods = ["POST", "GET"])
-def train_fl(search_term):
+@train_bp.before_request
+def before():
     if "user_id" not in session:
         return redirect("/")
+    
+@train_bp.route("/train_fl/<string:search_term>", methods = ["POST", "GET"])
+def train_fl(search_term):
     user_id = session["user_id"]
     vocabs = vocab_service.find_by_word(search_term,user_id)
     return render_template("practiceFlash.html", vocabs = vocabs)
@@ -14,16 +15,12 @@ def train_fl(search_term):
 
 @train_bp.route("/init_training", methods = ["GET","POST"])
 def init_training():
-    if "user_id" not in session:
-        return redirect("/")
     user_id = session["user_id"]
     vocabs = vocab_service.get_vocabs(user_id)
     return render_template("select.html", vocabs = vocabs)
 
 @train_bp.route("/process_selection", methods = ["POST"]) 
 def process_selection():
-    if "user_id" not in session:
-        return redirect("/")
     practice_mode = request.form.get("practice_mode") 
     selected_vocab_ids = request.form.getlist("vocab_ids")
     if len(selected_vocab_ids) < 2:
@@ -38,10 +35,10 @@ def process_selection():
     else:
         return render_template("test.html", vocabs = vocabs)
 
+
+
 @train_bp.route("/submit_test", methods = ["POST"])
 def submit_test():
-    if "user_id" not in session:
-        return redirect("/")
     if "training_id" not in session:
         return redirect("/init_training")
     training_id = session["training_id"]
@@ -59,18 +56,14 @@ def submit_test():
 
 @train_bp.route("/delete_training/<int:id>", methods = ["POST","GET"])
 def delete_training(id:int):
-    if "user_id" not in session:
-        return redirect("/")
     vocab_service.delete_training(id,session["user_id"])
     return redirect("/user_info")
 
 @train_bp.route("/test_id/<int:id>", methods = ["POST","GET"])
 def test_id(id:int):
-    if "user_id" not in session:
-        return redirect("/")
     session["training_id"] = id
     vocabs = vocab_service.get_training_set(id,session["user_id"])
-    if "error" in vocabs:
+    if "error" in vocabs: # This needs to be changed, as it makes error a forbidden word in vocabs
         flash(vocabs)
         return redirect("/user_info")
     return render_template("test.html", vocabs = vocabs)
@@ -78,8 +71,7 @@ def test_id(id:int):
 @train_bp.route("/user_info", methods = ["POST","GET"])
 
 def user_info():
-    if "user_id" not in session:
-        return redirect("/")
+
     user_id = session["user_id"]
     vocab_stats = vocab_service.get_users_vocab_stats(user_id)
 

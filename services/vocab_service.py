@@ -122,5 +122,6 @@ class VocabService:
     
     def get_total_no_of_vocabs(self):
         return self._vocab_repository.get_total_no_of_vocabs()
+  
     
 vocab_service = VocabService()

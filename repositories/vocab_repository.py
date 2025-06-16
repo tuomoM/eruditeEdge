@@ -90,6 +90,7 @@ class VocabRepository:
         result = db.query(sql,params)
         return result
     
+    
     def get_training_id(self,user_id,vocab_hash):
         sql = """SELECT id FROM training_sessions WHERE user_id = ? AND vocab_hash = ?"""
         result = db.query(sql,[user_id,vocab_hash])
