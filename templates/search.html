@@ -15,6 +15,7 @@
     <input type="text" name="search_t" id ="search" />
   </p>
   <p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" value = "search">
   </p>
 </form>

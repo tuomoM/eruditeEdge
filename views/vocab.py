@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request,flash, redirect, session
+from flask import Blueprint, render_template, request,flash, redirect, session,abort
 from services.vocab_service import vocab_service
 
 vocab_bp = Blueprint("vocab", __name__)
@@ -8,6 +8,9 @@ vocab_bp = Blueprint("vocab", __name__)
 def before():
     if "user_id" not in session:
         return redirect("/")
+    if request.method == "POST":
+        if request.form["csrf_token"] != session["csrf_token"]:
+           abort(403)
 
 @vocab_bp.route("/maintain", methods = ["POST", "GET"])
 def maintain():

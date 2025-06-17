@@ -1,5 +1,4 @@
 from flask import Flask, Blueprint, session
-from flask import render_template
 import db
 from views import user, vocab, train, entry
 import config

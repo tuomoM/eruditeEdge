@@ -5,11 +5,7 @@
 {% block content %}
 {%if session.training_id%}
 <div class="buttonbox">
- 
-    <form action="/test_id/{{session.training_id}}" method="POST">
-        <input type ="submit" value ="Test your knowledge of this set">
-    </form>
-   
+    <a href="/test_id/{{session.training_id}}">Test your knowledge of these vocabs </a>
 </div>  
 {%endif%}  
 <div class="flashcard-container">

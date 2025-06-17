@@ -16,7 +16,9 @@
                 </div>
                 {% endfor %}
             </div>
-            <button type="submit">Submit Test</button>
+            <br>
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+            <input type="submit" value ="Submit Test">
         </form>
     </div>
  {% endblock %}

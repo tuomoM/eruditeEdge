@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, redirect, flash, request, session, get_flashed_messages
+from flask import Blueprint, render_template, redirect, flash, request, session
 from services.user_service import user_service
-from services.vocab_service import vocab_service
+import secrets
 
 user_bp = Blueprint("user", __name__)
 
@@ -18,6 +18,7 @@ def login():
         if id:
             session["username"] = username
             session["user_id"] = id
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         flash("Incorrect password or username", "error" )
        
@@ -39,6 +40,7 @@ def register():
         if type(return_value)==int:
             session["username"] = username
             session["user_id"] = return_value
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         flash(return_value, "error" )
        
