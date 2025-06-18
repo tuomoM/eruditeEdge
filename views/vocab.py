@@ -11,15 +11,10 @@ def before():
     if request.method == "POST":
         if request.form["csrf_token"] != session["csrf_token"]:
            abort(403)
-        if "csrf_token" in session:
-             print("Token löytyy sessiosta")
-        else:
-             print("tokenia ei löydy")    
-
+   
 @vocab_bp.route("/maintain", methods = ["POST", "GET"])
 def maintain():
 
-    
     if request.method == "POST":
         word = request.form["word"]
         description = request.form["description"]
@@ -35,7 +30,7 @@ def maintain():
     
     return render_template("maintain.html", vocabs = vocabs, visibilities = visibilities)
 
-@vocab_bp.route("/view/<int:id>", methods = ["POST", "GET"])
+@vocab_bp.route("/view/<int:id>", methods = ["GET"])
 def view(id:int):
 
     vocab = vocab_service.get_vocab(id)
@@ -84,7 +79,8 @@ def search():
         search_term = request.form["search_t"]
         vocabs = vocab_service.find_by_word(search_term, session["user_id"])
         if vocabs:
-            del session["training_id"]
+            if "training_id" in session:
+                del session["training_id"]
             return render_template("search.html", vocabs = vocabs, search_t = search_term) 
         else:
             flash("No entries found")

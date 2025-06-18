@@ -23,7 +23,7 @@ class VocabRepository:
     
     def get_vocabs(self, user_id : int):
         sql = """SELECT a.id as id, a.word as word, a.w_description as w_description,
-               a.example as example, a.synonyms as synonums, a.user_id as user_id, 
+               a.example as example, a.synonyms as synonyms, a.user_id as user_id, 
                a.global_flag as global_flag, b.status_description as flag_description
                FROM vocabs as a LEFT JOIN vocab_categories as b ON a.global_flag = b.status_id WHERE user_id = ? 
                OR global_flag = 1
@@ -58,7 +58,7 @@ class VocabRepository:
     
     def get_vocab(self,id):
         sql = """SELECT a.id as id, a.word as word, a.w_description as w_description,
-        a.example as example, a.synonyms as synonums, a.user_id as user_id, a.global_flag as global_flag, 
+        a.example as example, a.synonyms as synonyms, a.user_id as user_id, a.global_flag as global_flag, 
         b.status_description from vocabs as a
         LEFT JOIN  vocab_categories as b ON a.global_flag = b.status_id  where a.id = ?
         GROUP BY a.id """
@@ -80,7 +80,7 @@ class VocabRepository:
         
     def get_vocabs_by_ids(self,user_id, ids):
         sql =  (
-            "SELECT id, word, w_description, example "
+            "SELECT id, word, w_description, example, synonyms "
             "FROM vocabs "
             "WHERE (user_id = ? OR global_flag = 1) AND id IN ({})"
             "ORDER BY RANDOM()"
