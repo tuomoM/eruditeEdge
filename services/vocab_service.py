@@ -92,7 +92,7 @@ class VocabService:
    
         return results
     def update_training(self,training_id, success_rate:float):
-        time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S') 
+        time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
         self._vocab_repository.update_training(training_id,success_rate,time_stamp)
 
     def get_vocab_count(self, user_id):

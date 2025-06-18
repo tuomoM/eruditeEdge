@@ -36,7 +36,8 @@
                 {% endfor %}
             </select>  
         </p>
-         <input type="submit" value="Save" />
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+        <input type="submit" value="Save" />
     </form>
   
    <td>

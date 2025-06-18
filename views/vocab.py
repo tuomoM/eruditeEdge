@@ -11,6 +11,10 @@ def before():
     if request.method == "POST":
         if request.form["csrf_token"] != session["csrf_token"]:
            abort(403)
+        if "csrf_token" in session:
+             print("Token löytyy sessiosta")
+        else:
+             print("tokenia ei löydy")    
 
 @vocab_bp.route("/maintain", methods = ["POST", "GET"])
 def maintain():
