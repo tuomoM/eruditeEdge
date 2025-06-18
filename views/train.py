@@ -1,10 +1,13 @@
-from flask import Blueprint, render_template, request,flash, redirect, session
+from flask import Blueprint, render_template, request,flash, redirect, session, abort
 from services.vocab_service import vocab_service
 train_bp = Blueprint("train", __name__)
 @train_bp.before_request
 def before():
     if "user_id" not in session:
         return redirect("/")
+    if request.method == "POST":
+        if request.form["csrf_token"] != session["csrf_token"]:
+           abort(403)
     
 @train_bp.route("/train_fl/<string:search_term>", methods = ["POST", "GET"])
 def train_fl(search_term):
@@ -32,8 +35,7 @@ def process_selection():
     vocabs = vocab_service.get_vocabset(session["user_id"], selected_vocab_ids)
     if practice_mode == "flashcards":
         return render_template("practiceFlash.html", vocabs = vocabs)
-    else:
-        return render_template("test.html", vocabs = vocabs)
+    return render_template("test.html", vocabs = vocabs)
 
 
 

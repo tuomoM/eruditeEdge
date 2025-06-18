@@ -82,7 +82,7 @@ def search():
             if "training_id" in session:
                 del session["training_id"]
             return render_template("search.html", vocabs = vocabs, search_t = search_term) 
-        else:
-            flash("No entries found")
+       
+        flash("No entries found")
                  
     return render_template("search.html")
