@@ -84,7 +84,7 @@ class VocabRepository:
             "FROM vocabs "
             "WHERE (user_id = ? OR global_flag = 1) AND id IN ({})"
             "ORDER BY RANDOM()"
-        ).format(','.join(['?'] * len(ids)))
+        ).format(",".join(["?"] * len(ids)))
         
         params = [user_id]+ids
         result = db.query(sql,params)
