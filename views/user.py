@@ -19,6 +19,7 @@ def login():
             session["username"] = username
             session["user_id"] = id
             session["csrf_token"] = secrets.token_hex(16)
+            flash("login successful")
             return redirect("/")
         flash("Incorrect password or username", "error" )
        
@@ -41,6 +42,7 @@ def register():
             session["username"] = username
             session["user_id"] = return_value
             session["csrf_token"] = secrets.token_hex(16)
+            flash("userid successfully created")
             return redirect("/")
         flash(return_value, "error" )
        

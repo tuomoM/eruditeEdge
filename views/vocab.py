@@ -24,7 +24,8 @@ def maintain():
         error = vocab_service.add_vocab(word,description,example,synomyms,session["user_id"],global_flag)
         if error:
             flash(error, "error")
-    
+        else:
+            flash("Vocab created")
     vocabs = vocab_service.get_vocabs(session["user_id"])
     visibilities = vocab_service.get_vocab_categories()
     
@@ -55,12 +56,7 @@ def update(id:int):
             flash("You cannot edit vocabs created by other users")
             return render_template("/edit.html", vocab = vocab)        
         if "delete" in request.form:
-            result = vocab_service.delete_vocab(vocab["id"])
-            if result:
-                flash(result)
-                return render_template("/edit.htlm", vocab = vocab)
-            return redirect("/maintain")
-
+            return render_template("confirm_deletion.html", vocab = vocab)
         word = request.form["word"]
         description = request.form["description"]
         example = request.form["example"]
@@ -72,6 +68,17 @@ def update(id:int):
             return render_template("/edit.html", vocab = vocab)
         return redirect("/maintain")
     
+@vocab_bp.route("/confirm_deletion/<int:vocab_id>", methods = ["POST"])
+def confirm_deletion(vocab_id:int):
+    vocab = vocab_service.get_vocab(vocab_id)
+    if not vocab or vocab["user_id"] != session["user_id"]:
+        abort(404)
+    result = vocab_service.delete_vocab(vocab_id)
+    if result:
+        flash(result)
+        return redirect("/edit/"+str(vocab_id))
+    return redirect("/maintain")
+    
 @vocab_bp.route("/search", methods = ["POST", "GET"])
 def search():
     
@@ -82,7 +89,6 @@ def search():
             if "training_id" in session:
                 del session["training_id"]
             return render_template("search.html", vocabs = vocabs, search_t = search_term) 
-       
         flash("No entries found")
                  
     return render_template("search.html")

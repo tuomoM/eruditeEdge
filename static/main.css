@@ -56,12 +56,26 @@ td {
   text-align: left;
 }
 
-input[type="submit"]{
-  background-color: #f2f0f0; 
-  color: rgb(52, 56, 58); 
-  border-color: beige;
-  border-radius: 5px;
+.btn,input[type="submit"]{
+    background-color: #f2f0f0be;
+    color: rgb(52, 56, 58);
+    border: 1px solid lightgray; 
+    border-radius: 5px;
+    padding: 2px 20px; 
+    text-decoration: none; 
+    display: inline-block; /* Allow padding and borders on <a> */
+    cursor: pointer;
+    font-size: 14px; /* Consistent text size */
+    text-align: center; /* Center text */
+    box-sizing: border-box; /* Prevent padding issues */
+    font-family: inherit; /* Match default button font */
+    -webkit-appearance: none; /* Reset browser-specific styling */
+    -moz-appearance: none;
+    appearance: none;
+    font-family: serif;
+
 }
+.btn:hover,input[type="submit"]:hover { background-color: #aaa; }
 .flashcard-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -134,3 +148,11 @@ input[type="submit"]{
     border: 1px solid lightgray;
     padding: 5px
 }
+.vocab-list{
+  padding-left: 30px;
+}
+.Header{
+  padding: 5px;
+  font-size: 15;
+}
+

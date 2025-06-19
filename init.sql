@@ -1,2 +1,2 @@
-INSERT INTO vocab_categories (status_id, status_description) VALUES (0,"Local");
-INSERT INTO vocab_categories (status_id, status_description) VALUES (1,"Global"); 
+INSERT INTO vocab_categories (status_id,category_type,status_description) VALUES (0,"Visibility","Local");
+INSERT INTO vocab_categories (status_id,category_type,status_description) VALUES (1,"Visibility","Global"); 

@@ -30,7 +30,18 @@ CREATE TABLE training_items(
 
 CREATE TABLE vocab_categories(
     id INTEGER PRIMARY KEY,
+    category_type TEXT,
     status_id INTEGER UNIQUE,
     status_description TEXT
 );
+CREATE TABLE change_suggestions(
+    id INTEGER PRIMARY KEY,
+    vocab_id INTEGER REFERENCES vocabs,
+    creator_id INTEGER REFERENCES users,
+    new_description TEXT,
+    new_example TEXT,
+    new_synonyms TEXT,
+    change_status INTEGER,
+    comments TEXT
+)
 

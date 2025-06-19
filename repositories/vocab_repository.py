@@ -25,7 +25,7 @@ class VocabRepository:
         sql = """SELECT a.id as id, a.word as word, a.w_description as w_description,
                a.example as example, a.synonyms as synonyms, a.user_id as user_id, 
                a.global_flag as global_flag, b.status_description as flag_description
-               FROM vocabs as a LEFT JOIN vocab_categories as b ON a.global_flag = b.status_id WHERE user_id = ? 
+               FROM vocabs as a LEFT JOIN status_categories as b ON a.global_flag = b.status_id WHERE user_id = ? 
                OR global_flag = 1
                GROUP BY a.id  
                ORDER BY CASE WHEN user_id = ? THEN 0 ELSE 1 END
@@ -43,7 +43,7 @@ class VocabRepository:
         try:
             db.execute(sql,[id])
         except Exception:
-            return "Exception"
+            return "Exception "+ str(id)
         return None
         
 
@@ -60,7 +60,7 @@ class VocabRepository:
         sql = """SELECT a.id as id, a.word as word, a.w_description as w_description,
         a.example as example, a.synonyms as synonyms, a.user_id as user_id, a.global_flag as global_flag, 
         b.status_description from vocabs as a
-        LEFT JOIN  vocab_categories as b ON a.global_flag = b.status_id  where a.id = ?
+        LEFT JOIN  status_categories as b ON a.global_flag = b.status_id  where a.id = ?
         GROUP BY a.id """
         result = db.query(sql, [id])
         return result[0] if result else None
@@ -69,7 +69,7 @@ class VocabRepository:
         sql = """SELECT a.id as id, a.word as word, a.w_description as w_description, a.example as example,
                a.synonyms as synonyms, a. user_id as user_id, a.global_flag as global_flag,
                b.status_description as flag_description 
-               FROM vocabs as a LEFT JOIN vocab_categories as b ON a.global_flag = b.status_id 
+               FROM vocabs as a LEFT JOIN status_categories as b ON a.global_flag = b.status_id 
                where (user_id = ? AND word like ?)
                OR (global_flag = 1  AND word like ?)
                GROUP by a.id
@@ -143,8 +143,8 @@ class VocabRepository:
 
 
     def get_global_flag_values(self):
-        sql = "SELECT status_id, status_description FROM vocab_categories"
-        result = db.query(sql,[])
+        sql = "SELECT status_id, status_description FROM status_categories WHERE category_type = ? "
+        result = db.query(sql,["Visibility"])
         return result
     
 

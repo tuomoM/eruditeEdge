@@ -1,0 +1,21 @@
+{% extends "template.html" %}
+
+{% block title %}Confirm deletion {% endblock %}
+
+{% block content %}
+<div class="Header">
+    Delete word <strong>{{vocab.word}}</strong>?
+</div>
+<br>
+<div>
+    <form action="/confirm_deletion/{{vocab.id}}" method="POST">
+  
+     <input type="hidden" name = "vocab_id" value =  "{{ vocab.id }}" id = "id"/> 
+     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+     <input type="submit" value="Confirm deletion" />
+     
+    </form>
+</div>
+<br>
+    <a href="/edit/{{vocab.id}}" class = "btn">Cancel</a>
+ {% endblock %}
