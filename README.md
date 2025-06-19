@@ -21,6 +21,8 @@
 - Possiblity to return to flashcard mode from testmode
 - Possibility to enter flashcard mode from user information / users training session view
 - Finalization of layouts and clean up of code
+- Add possibility to suggest a change to global vocabs created by other users
+- Add inbox type solution to review change suggestions and handle them.
 
 ### Main issues
 * Due to chosen technology, ie. no Javascript, it is difficult to create a good filtering mechanism for the vocabs when choosing wich ones you want to have for your training session. Without javascript we would always have to submit the query to backend and yet retain the selection. This i have deemed to be too cumbersome to do given that it would be a snap of fingers with javascript.
