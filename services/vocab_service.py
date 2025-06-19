@@ -21,7 +21,7 @@ class VocabService:
             return "Please input synonyms for word:" + word
         if self._vocab_repository.vocab_exists(word):
             return "Word already exists in database"
-        self._vocab_repository.save_vocabs(word,description,example,synonums,user_id,global_flag)
+        self._vocab_repository.save_vocabs(word.capitalize(),description,example,synonums,user_id,global_flag)
 
     def get_vocabs(self,user_id):
         return self._vocab_repository.get_vocabs(user_id)

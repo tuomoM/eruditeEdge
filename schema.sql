@@ -28,7 +28,7 @@ CREATE TABLE training_items(
     success_rate FLOAT
 );
 
-CREATE TABLE vocab_categories(
+CREATE TABLE status_categories(
     id INTEGER PRIMARY KEY,
     category_type TEXT,
     status_id INTEGER UNIQUE,
@@ -41,7 +41,7 @@ CREATE TABLE change_suggestions(
     new_description TEXT,
     new_example TEXT,
     new_synonyms TEXT,
-    change_status INTEGER,
+    change_status INTEGER REFERENCES status_categories,
     comments TEXT
 )
 

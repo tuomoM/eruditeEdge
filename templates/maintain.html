@@ -51,18 +51,21 @@
         <th>Example sentence</th>
         <th>Synonyms</th>
         <th>Visibility</th>
+        <th>Change / Suggest change</th>
       </tr>
       {% for vocab in vocabs %}
        <tr>
-        {%if vocab.user_id == session["user_id"]%}
-         <td><a href="/edit/{{ vocab.id }}" > {{vocab.word}}</a></td>
-        {% else %}
          <td> {{ vocab.word }}</td>
-        {% endif %}
          <td>{{ vocab.w_description }}</td>
          <td>{{ vocab.example }}</td>
          <td>{{ vocab.synonyms }}</td>
          <td>{{ vocab.flag_description }}</td>
+         <td>  {%if vocab.user_id != session["user_id"]%}
+                <a href="//suggest_changes/{{vocab.id}}"><img src="/static/suggest.png" alt="Suggest change" width="35" height="25"> </a>
+                {%else%}
+                 <a href="/edit/{{ vocab.id }}" ><img src="/static/change.png" alt ="Change" width="35" height="25"> </a>
+               {%endif%}
+         </td>
        </tr> 
       {% endfor %}
 
