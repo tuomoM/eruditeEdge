@@ -61,7 +61,7 @@
          <td>{{ vocab.synonyms }}</td>
          <td>{{ vocab.flag_description }}</td>
          <td>  {%if vocab.user_id != session["user_id"]%}
-                <a href="//suggest_changes/{{vocab.id}}"><img src="/static/suggest.png" alt="Suggest change" width="35" height="25"> </a>
+                <a href="/suggest_changes/{{vocab.id}}"><img src="/static/suggest.png" alt="Suggest change" width="35" height="25"> </a>
                 {%else%}
                  <a href="/edit/{{ vocab.id }}" ><img src="/static/change.png" alt ="Change" width="35" height="25"> </a>
                {%endif%}

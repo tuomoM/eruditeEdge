@@ -49,7 +49,7 @@ class VocabRepository:
 
     def get_id(self, word:str)->int:
         sql = "SELECT id FROM vocabs where word = ?"
-        result = db.query(sql,[word]) 
+        result = db.query(sql,[word])
         return result
           
     def get_owner(self,id)->int:
@@ -123,7 +123,6 @@ class VocabRepository:
         result = db.query(sql,[training_id])
         return result
     
-
     def update_training(self,training_id, success_rate, time_stamp):
         sql = """UPDATE training_sessions set success_rate = ?, last_accessed = ? WHERE id = ?"""
         db.execute(sql,[success_rate,time_stamp, training_id])
@@ -135,6 +134,7 @@ class VocabRepository:
           GROUP BY a.id, a.success_rate, a.last_accessed"""
         result = db.query(sql,[user_id])
         return result
+    
     def delete_training(self, training_id, user_id):
         sql1 = "DELETE FROM training_items where training_id = ?"
         db.execute(sql1,[training_id])
@@ -153,4 +153,24 @@ class VocabRepository:
         result = db.query(sql,[])
         return result
     
+    ## Suggestions handling
+
+    def save_vocab_suggestion(self, requester_id,owner_id,vocab_id, new_description, new_example, new_synonyms, comments ):
+        sql = """INSERT into change_suggestions 
+                (vocab_id,owner_id, creator_id, new_description, new_example, new_synonyms, change_status, comments)
+                values (?,?,?,?,?,?,?,?)"""
+        db.execute(sql,[vocab_id,owner_id,requester_id,new_description,new_example,new_synonyms,2,comments])
+        suggestion_id = db.last_insert_id
+        return suggestion_id
+  
+    def get_suggestions_to_user(self, user_id):
+        sql = """SELECT a.id as id, b.word as word, a.new_description as new_description, a.new_example as new_example,
+                 a.new_synonyms as new_synonyms, a.comments as comments, c.status_description as status from change_suggestions AS a
+                 JOIN vocabs AS b ON a.vocab_id = b.id
+                 JOIN status_categories AS c ON a.change_status = c.status_id
+                 WHERE a.owner_id = ?
+                 GROUP BY a.id
+                 """
+        result = db.query(sql,[user_id])
+        return result
 vocab_repository = VocabRepository()

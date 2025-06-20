@@ -1,0 +1,25 @@
+{% extends "template.html" %}
+
+{% block title %}Suggestions{% endblock %}
+
+{% block content %}
+
+<div class="Header">
+<h1>Header</h1>
+
+</div>
+
+{% if suggestions %}
+<h2><strong></strong></h2>
+{% for suggestion in suggestions %}
+<div class = "suggestion">
+  <p> <strong>{{suggestion.word}}</strong></p>
+
+</div>
+
+{% endfor %}
+
+{%endif%}
+
+
+{% endblock %}

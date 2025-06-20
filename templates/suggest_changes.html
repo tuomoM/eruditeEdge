@@ -1,0 +1,32 @@
+{% extends "template.html" %}
+
+{% block title %}Suggest Changes{% endblock %}
+
+{% block content %}
+<h1>Suggest Changes for "{{ vocab.word }}"</h1>
+<p>Current Description: {{ vocab.w_description }}</p>
+<p>Current Example: {{ vocab.example }}</p>
+<p>Current Synonyms: {{ vocab.synonyms }}</p>
+<form action="/suggest_changes/{{ vocab.id }}" method="POST">
+    <p>
+        <label for="new_description">New Description (optional)</label><br>
+        <input type="text" name="new_description" id="new_description" size =100 value = "">
+    </p>
+    <p>
+        <label for="new_example">New Example Sentence (optional)</label><br>
+        <tinput type = "text" name="new_example" id="new_example" size = 100 value ="">
+    </p>
+    <p>
+        <label for="new_synonyms">New Synonyms (optional)</label><br>
+        <input type="text" name="new_synonyms" id="new_synonyms" size="80" value ="">
+    </p>
+    <p>
+        <label for="comments">Comments (optional)</label><br>
+        <textarea name="comments" id="comments" rows="4" cols="80" value =""></textarea>
+    </p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="submit" value="Submit Suggestion" class="btn">
+    <a href="/maintain" class="btn">Cancel</a>
+</form>
+
+{% endblock %}

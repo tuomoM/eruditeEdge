@@ -92,3 +92,40 @@ def search():
         flash("No entries found")
                  
     return render_template("search.html")
+
+
+@vocab_bp.route("/suggest_changes/<int:vocab_id>", methods = ["GET","POST"])
+def suggest_changes(vocab_id:int):
+    vocab = vocab_service.get_vocab(vocab_id)
+    if not vocab:
+        abort(404)
+    if request.method == "GET":
+        return render_template("suggest_changes.html", vocab = vocab)
+    #POST
+    new_description = ""
+    new_synonyms = ""
+    new_example = ""
+    comments = ""
+    if "new_description" in request.form:
+        new_description = request.form["new_description"]
+    if "new_example" in request.form:
+        new_example = request.form["new_example"]
+    if "new_synonyms" in request.form:
+        new_synonyms = request.form["new_synonyms"]
+    if "comments" in request.form:
+        comments = request.form["comments"]    
+ 
+    result = vocab_service.create_change_suggestion(vocab_id,session["user_id"],new_description,new_example,new_synonyms,comments)
+    if result is None:
+        flash("Suggestion succesfully saved")
+        return redirect("/maintain")
+    flash("error "+str(result))
+    return render_template("suggest_changes.html", vocab = vocab)
+
+        
+@vocab_bp.route("/inbox", methods = ["GET", "POST"])
+def inbox():
+    user_id = session["user_id"]
+    suggestions = vocab_service.get_suggestions_to(user_id)
+    print(str(len(suggestions)))
+    return render_template("suggestion_inbox.html", suggestions = suggestions )

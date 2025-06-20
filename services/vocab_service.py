@@ -29,6 +29,8 @@ class VocabService:
     
     def edit_vocab(self, vocab ,word:str, description:str, example:str, synonyms:str, global_flag: int ):
         id = vocab["id"]
+        if not all(word,description,example,synonyms):
+            return "No field can be left empty"
         if description:
             if word in description:
                 return "Please do not use the vocab word in description"
@@ -61,7 +63,7 @@ class VocabService:
     def get_training_id(self,user_id, vocab_ids):
         vocab_hash = self.generate_hash(vocab_ids)
         id = self._vocab_repository.get_training_id(user_id,vocab_hash)
-        if id == None:
+        if id is None:
             result = self.save_training(user_id,vocab_ids, vocab_hash)
             return result
         else:
@@ -123,5 +125,19 @@ class VocabService:
     def get_total_no_of_vocabs(self):
         return self._vocab_repository.get_total_no_of_vocabs()
   
+    def create_change_suggestion(self,vocab_id,user_id, new_description, new_example,new_synonyms,comments):
+        if not any({new_description,new_example,new_synonyms}):
+            return "Request atleast one change to submit change suggestion"
+        vocab = self._vocab_repository.get_vocab(vocab_id)
+
+        if new_description and vocab["word"] in new_description:
+            return "Do not include the word in the description"
+        self._vocab_repository.save_vocab_suggestion(user_id,vocab["user_id"],vocab_id,new_description,new_example,new_synonyms, comments)
+ #       if isinstance(suggestion_id,int):
+ #           return None
+ #       return "Error in saving suggestion"
+        return None
     
+    def get_suggestions_to(self,user_id):
+        return self._vocab_repository.get_suggestions_to_user(user_id)
 vocab_service = VocabService()
