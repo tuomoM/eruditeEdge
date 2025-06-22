@@ -76,7 +76,7 @@ class VocabRepository:
                ORDER BY CASE WHEN user_id = ? THEN 0 ELSE 1 END"""
         like = "%" + search_string + "%"
         result = db.query(sql,[user_id,like,like, user_id])
-        return result      
+        return result
         
     def get_vocabs_by_ids(self,user_id, ids):
         sql =  (
@@ -155,22 +155,44 @@ class VocabRepository:
     
     ## Suggestions handling
 
-    def save_vocab_suggestion(self, requester_id,owner_id,vocab_id, new_description, new_example, new_synonyms, comments ):
+    def save_vocab_suggestion(self, requester_id,owner_id,vocab_id, new_description, new_example, new_synonyms, comments,time_stamp ):
         sql = """INSERT into change_suggestions 
-                (vocab_id,owner_id, creator_id, new_description, new_example, new_synonyms, change_status, comments)
-                values (?,?,?,?,?,?,?,?)"""
-        db.execute(sql,[vocab_id,owner_id,requester_id,new_description,new_example,new_synonyms,2,comments])
+                (vocab_id,owner_id, creator_id, new_description, new_example, new_synonyms, change_status, comments, creation_time)
+                values (?,?,?,?,?,?,?,?,?)"""
+        db.execute(sql,[vocab_id,owner_id,requester_id,new_description,new_example,new_synonyms,2,comments,time_stamp])
         suggestion_id = db.last_insert_id
         return suggestion_id
   
     def get_suggestions_to_user(self, user_id):
-        sql = """SELECT a.id as id, b.word as word, a.new_description as new_description, a.new_example as new_example,
-                 a.new_synonyms as new_synonyms, a.comments as comments, c.status_description as status from change_suggestions AS a
+        sql = """SELECT a.id as id, b.word as word,b.w_description as orig_description, b.example as orig_example,
+                 b.synonyms as orig_synonyms, a.new_description as new_description, a.new_example as new_example,
+                 a.new_synonyms as new_synonyms, a.comments as comments, a.creation_time as creation_time,
+                 c.status_description as status from change_suggestions AS a
                  JOIN vocabs AS b ON a.vocab_id = b.id
                  JOIN status_categories AS c ON a.change_status = c.status_id
-                 WHERE a.owner_id = ?
+                 WHERE a.owner_id = ? AND a.change_status = 2
                  GROUP BY a.id
                  """
         result = db.query(sql,[user_id])
         return result
+ 
+    def get_suggestion(self,suggestion_id):
+        sql = """SELECT id, vocab_id, owner_id,new_description, new_example, new_synonyms, change_status
+                 FROM change_suggestions where id = ?"""
+        result = db.query(sql,[suggestion_id])
+        return result
+
+    def accept_suggestion(self,suggestion_id, vocab_id, new_description, new_example, new_synonyms):
+        #Update vocab
+        sql = """UPDATE vocabs SET  w_description = COALESCE(?,w_description), example = COALESCE(?,example),
+                 synonyms =COALESCE(?,synonyms) WHERE id = ? 
+                """
+        db.execute(sql,[new_description,new_example,new_synonyms,vocab_id])
+        # update suggestion
+        sql2 = "UPDATE change_suggestions SET change_status = 3 WHERE id = ?"
+        db.execute(sql2,[suggestion_id])
+
+    def reject_suggestion(self,suggestion_id):
+        sql = "UPDATE change_suggestions SET change_status = 4 WHERE id = ?"
+        db.execute(sql,[suggestion_id])    
 vocab_repository = VocabRepository()

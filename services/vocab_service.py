@@ -43,8 +43,8 @@ class VocabService:
     
     def delete_vocab(self, vocab_id):
        return_value = self._vocab_repository.del_vocab(vocab_id)
-       if return_value: 
-          return return_value 
+       if return_value:
+          return return_value
        
     def find_by_word(self, search_string, user_id):
         return self._vocab_repository.find_vocabs(search_string,user_id)
@@ -58,8 +58,8 @@ class VocabService:
         vocab_ids_copy.sort()
         vocab_ids_str = ','.join(map(str, vocab_ids_copy))
         hash_value = hashlib.sha256(vocab_ids_str.encode()).hexdigest()
-    
         return hash_value
+    
     def get_training_id(self,user_id, vocab_ids):
         vocab_hash = self.generate_hash(vocab_ids)
         id = self._vocab_repository.get_training_id(user_id,vocab_hash)
@@ -70,7 +70,7 @@ class VocabService:
             return id
 
     def save_training(self, user_id, vocab_ids, vocab_hash):
-        time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S') 
+        time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
         training_id = self._vocab_repository.save_training(user_id,vocab_hash,time_stamp,vocab_ids)
         return training_id
@@ -128,11 +128,13 @@ class VocabService:
     def create_change_suggestion(self,vocab_id,user_id, new_description, new_example,new_synonyms,comments):
         if not any({new_description,new_example,new_synonyms}):
             return "Request atleast one change to submit change suggestion"
+        
         vocab = self._vocab_repository.get_vocab(vocab_id)
 
         if new_description and vocab["word"] in new_description:
             return "Do not include the word in the description"
-        self._vocab_repository.save_vocab_suggestion(user_id,vocab["user_id"],vocab_id,new_description,new_example,new_synonyms, comments)
+        time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        self._vocab_repository.save_vocab_suggestion(user_id,vocab["user_id"],vocab_id,new_description,new_example,new_synonyms, comments,time_stamp)
  #       if isinstance(suggestion_id,int):
  #           return None
  #       return "Error in saving suggestion"
@@ -140,4 +142,37 @@ class VocabService:
     
     def get_suggestions_to(self,user_id):
         return self._vocab_repository.get_suggestions_to_user(user_id)
+    def accept_suggestion(self, suggestion_id, user_id):
+        suggestion = self._vocab_repository.get_suggestion(suggestion_id)[0]
+        if not suggestion:
+            return "Error suggestion not found"
+        if suggestion["owner_id"] != user_id:
+            return "Error not authorized to accept this suggestion"
+        if suggestion["change_status"] != 2:
+            return "Error Suggestion not possible to approve"
+
+        if suggestion["new_description"] != "":
+            new_description = suggestion["new_description"]
+        else:
+            new_description = None
+        if suggestion["new_example"] != "":
+            new_example = suggestion["new_example"]
+        else:
+            new_example = None
+        if suggestion["new_synonyms"] != "":
+            new_synonyms = suggestion["new_synonyms"]
+        else:
+            new_synonyms = None                     
+        self._vocab_repository.accept_suggestion(suggestion_id,suggestion["vocab_id"],new_description,new_example,new_synonyms)
+
+    def reject_suggestion(self,suggestion_id,user_id):
+        suggestion = self._vocab_repository.get_suggestion(suggestion_id)[0]
+        if not suggestion:
+            return "Error suggestion not found"
+        if suggestion["owner_id"] != user_id:
+            return "Error not authorized to reject this suggestion"
+        if suggestion["change_status"] != 2:
+            return "Error Suggestion not possible to reject"
+        self._vocab_repository.reject_suggestion(suggestion_id)
+            
 vocab_service = VocabService()

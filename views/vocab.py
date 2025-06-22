@@ -127,5 +127,21 @@ def suggest_changes(vocab_id:int):
 def inbox():
     user_id = session["user_id"]
     suggestions = vocab_service.get_suggestions_to(user_id)
-    print(str(len(suggestions)))
     return render_template("suggestion_inbox.html", suggestions = suggestions )
+
+@vocab_bp.route("/inbox/accept_suggestion/<int:suggestion_id>", methods = ["POST"])
+def accept_suggestion(suggestion_id:int):
+    error = vocab_service.accept_suggestion(suggestion_id,session["user_id"])
+    if error:
+        flash(error)
+    else:
+        flash("Suggestion approved")    
+    return redirect("/inbox")    
+@vocab_bp.route("/inbox/reject_suggestion/<int:suggestion_id>", methods = ["POST"])
+def reject_suggestion(suggestion_id:int):
+    error = vocab_service.reject_suggestion(suggestion_id,session["user_id"])
+    if error:
+        flash(error)
+    else:
+        flash("Suggestion rejected")    
+    return redirect("/inbox")    

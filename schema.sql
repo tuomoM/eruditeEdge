@@ -36,12 +36,14 @@ CREATE TABLE status_categories(
 );
 CREATE TABLE change_suggestions(
     id INTEGER PRIMARY KEY,
+    owner_id INTEGER REFERENCES users,
     vocab_id INTEGER REFERENCES vocabs,
     creator_id INTEGER REFERENCES users,
     new_description TEXT,
     new_example TEXT,
     new_synonyms TEXT,
     change_status INTEGER REFERENCES status_categories,
+    creation_time TIMESTAMP,
     comments TEXT
-)
+);
 
