@@ -16,13 +16,17 @@
 - Implement way to go from flashcard training to test directly.
 - implement the before functions across the blueprint
 - Implement CSRF checking
+- Add possibility to suggest a change to global vocabs created by other users
+- Add inbox type solution to review change suggestions and handle them.
 
 ### Planned updates
 - Possiblity to return to flashcard mode from testmode
 - Possibility to enter flashcard mode from user information / users training session view
 - Finalization of layouts and clean up of code
-- Add possibility to suggest a change to global vocabs created by other users
-- Add inbox type solution to review change suggestions and handle them.
+- Possibility to cancel your own suggestion for change when its not yet approved
+- Visibility to rejected and accepted suggestions
+
+
 
 ### Main issues
 * Due to chosen technology, ie. no Javascript, it is difficult to create a good filtering mechanism for the vocabs when choosing wich ones you want to have for your training session. Without javascript we would always have to submit the query to backend and yet retain the selection. This i have deemed to be too cumbersome to do given that it would be a snap of fingers with javascript.
