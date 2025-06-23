@@ -142,6 +142,9 @@ class VocabService:
     
     def get_suggestions_to(self,user_id):
         return self._vocab_repository.get_suggestions_to_user(user_id)
+    def get_own_suggestions(self,user_id):
+        return self._vocab_repository.get_own_suggestions(user_id)
+    
     def accept_suggestion(self, suggestion_id, user_id):
         suggestion = self._vocab_repository.get_suggestion(suggestion_id)[0]
         if not suggestion:
@@ -173,6 +176,14 @@ class VocabService:
             return "Error not authorized to reject this suggestion"
         if suggestion["change_status"] != 2:
             return "Error Suggestion not possible to reject"
-        self._vocab_repository.reject_suggestion(suggestion_id)
-            
+        self._vocab_repository.set_suggestion_status(suggestion_id,4)
+    def cancel_suggestion(self,suggestion_id,user_id):
+        suggestion = self._vocab_repository.get_suggestion(suggestion_id)[0]
+        if not suggestion:
+            return "Error suggestion not found"
+        if suggestion["creator_id"] != user_id:
+            return "Error not authorized to cancel this suggestion"
+        if suggestion["change_status"] != 2:
+            return "Error Suggestion not possible to cancel"
+        self._vocab_repository.set_suggestion_status(suggestion_id,4)
 vocab_service = VocabService()

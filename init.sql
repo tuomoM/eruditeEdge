@@ -4,3 +4,4 @@ INSERT INTO status_categories (status_id,category_type,status_description) VALUE
 INSERT INTO status_categories (status_id,category_type,status_description) VALUES (3,"Change","Approved"); 
 INSERT INTO status_categories (status_id,category_type,status_description) VALUES (4,"Change","Rejected"); 
 INSERT INTO status_categories (status_id,category_type,status_description) VALUES (5,"Change","Cancelled"); 
+INSERT INTO status_categories (status_id,category_type,status_description) VALUES (6,"Change","Archived"); 

@@ -18,12 +18,12 @@
 - Implement CSRF checking
 - Add possibility to suggest a change to global vocabs created by other users
 - Add inbox type solution to review change suggestions and handle them.
+- Possibility to cancel your own suggestion for change when its not yet approved
 
 ### Planned updates
 - Possiblity to return to flashcard mode from testmode
 - Possibility to enter flashcard mode from user information / users training session view
 - Finalization of layouts and clean up of code
-- Possibility to cancel your own suggestion for change when its not yet approved
 - Visibility to rejected and accepted suggestions
 
 

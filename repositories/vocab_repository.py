@@ -175,9 +175,21 @@ class VocabRepository:
                  """
         result = db.query(sql,[user_id])
         return result
- 
+    def get_own_suggestions(self, user_id):
+        sql = """SELECT a.id as id, b.word as word,b.w_description as orig_description, b.example as orig_example,
+                 b.synonyms as orig_synonyms, a.new_description as new_description, a.new_example as new_example,
+                 a.new_synonyms as new_synonyms, a.comments as comments, a.creation_time as creation_time,
+                 c.status_description as status from change_suggestions AS a
+                 JOIN vocabs AS b ON a.vocab_id = b.id
+                 JOIN status_categories AS c ON a.change_status = c.status_id
+                 WHERE a.creator_id = ? AND a.change_status = 2
+                 GROUP BY a.id
+                 """
+        result = db.query(sql,[user_id])
+        return result
+
     def get_suggestion(self,suggestion_id):
-        sql = """SELECT id, vocab_id, owner_id,new_description, new_example, new_synonyms, change_status
+        sql = """SELECT id, vocab_id, owner_id,new_description, creator_id, new_example, new_synonyms, change_status
                  FROM change_suggestions where id = ?"""
         result = db.query(sql,[suggestion_id])
         return result
@@ -189,10 +201,10 @@ class VocabRepository:
                 """
         db.execute(sql,[new_description,new_example,new_synonyms,vocab_id])
         # update suggestion
-        sql2 = "UPDATE change_suggestions SET change_status = 3 WHERE id = ?"
-        db.execute(sql2,[suggestion_id])
+        self.set_suggestion_status(suggestion_id,3)
 
-    def reject_suggestion(self,suggestion_id):
-        sql = "UPDATE change_suggestions SET change_status = 4 WHERE id = ?"
-        db.execute(sql,[suggestion_id])    
+    def set_suggestion_status(self, suggestion_id, status):
+        sql = "UPDATE change_suggestions SET change_status = ? WHERE id = ?"     
+        db.execute(sql,[status,suggestion_id])   
+
 vocab_repository = VocabRepository()

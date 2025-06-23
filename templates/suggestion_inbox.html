@@ -56,6 +56,44 @@
 
 
 {%endif%}
+{% if own_suggestions %}
+<div class="inbox-container"></div>
+  <div class="suggestions-list">
+        <h2>Suggestions you have made</h2>
+        {% if own_suggestions %}
+            {% for suggestion in own_suggestions %}
+                <div class="suggestion-item">
+                    <p><strong>Word:</strong> {{ suggestion.word }}</p>
+                    <p><strong>Status:</strong> {{ suggestion.status }}</p>
+                    <div class = "original-vocab">
+                        <p><strong>Original description:</strong> {{ suggestion.orig_description }}</p>
+                        <p><strong>Original example</strong>{{ suggestion.orig_example }}</p>
+                        <p><strong>Original synonyms</strong> {{ suggestion.orig_synonyms }}</p>
 
+
+                    </div>
+                    <div class = "suggestion">
+                    
+                        <p><strong>Your Description:</strong> {{ suggestion.new_description or "None" }}</p>
+                        <p><strong>Your Example:</strong> {{ suggestion.new_example or "None" }}</p>
+                        <p><strong>Your Synonyms:</strong> {{ suggestion.new_synonyms or "None" }}</p>
+                        <p><strong>Comments:</strong> {{ suggestion.comments or "None" }}</p>
+                        
+                    </div>
+                    <div class="suggestion-actions">             
+                        <form action="/inbox/cancel_suggestion/{{ suggestion.id }}" method="POST" style="display: inline;">
+                            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                            <input type="submit" value="Cancel" class="btn">
+                        </form>
+                    </div>
+                    
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>You dont have any open suggestions.</p>
+        {% endif %}
+    </div>
+    </div>
+ {%endif%}
 
 {% endblock %}
