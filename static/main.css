@@ -17,44 +17,12 @@ body {
     
 
 }
-.nav_item{
+.nav-item{
   align-content: left;
   padding: 5px;
 
 }
-table {
-  table-layout: fixed;
-  width: 100%;
-  border-collapse: collapse;
-  border: 3px solid lightgrey;
-}
-h2 {
-    font-size: large;
-    font-style: normal;
-    font-weight: 200;
-}
 
-thead th:nth-child(1) {
-  width: 30%;
-}
-
-thead th:nth-child(2) {
-  width: 20%;
-}
-
-thead th:nth-child(3) {
-  width: 15%;
-}
-
-thead th:nth-child(4) {
-  width: 35%;
-}
-
-th,
-td {
-  padding: 20px;
-  text-align: left;
-}
 
 .btn,input[type="submit"]{
     background-color: #f2f0f0be;
@@ -151,10 +119,65 @@ td {
 .vocab-list{
   padding-left: 30px;
 }
+.creation_container{
+  padding: 5px;
+  font-size: 15;
+  border: 1px solid lightgray;
+  background-color: #fafafa;
+}
+.vocab-container{
+  padding: 5px;
+  font-size: 15;
+  border: 1px solid lightgray;
+  background-color: #fafafa;
+}
 .Header{
   padding: 5px;
   font-size: 15;
 }
+
+.table-container {
+    display: block;
+    margin-bottom: 20px;
+    background-color: #fff; /* White background for icons */
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fafafa;
+}
+
+.vocab-table th,
+.vocab-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.vocab-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.vocab-table tr:last-child td {
+    border-bottom: none;
+}
+
+.table-icon {
+    justify-content: center;
+    padding: 10px 0;
+}
+
+
+
+
+
+
+
     .inbox-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -180,23 +203,18 @@ td {
         gap: 10px;
         margin-top: 10px;
     }
-    .btn-success {
-        background-color: #28a745;
-        color: white;
-        border-color: #28a745;
-    }
-    .btn-success:hover {
-        background-color: #218838;
-    }
-    .btn-danger {
-        background-color: #dc3545;
-        color: white;
-        border-color: #dc3545;
-    }
-    .btn-danger:hover {
-        background-color: #c82333;
-    }
+ 
+    
+ 
+  
     .container {
+        display: flex;
         max-width: 1200px;
         margin: 0 auto;
+    }
+    .search_container {
+        padding: 5px;
+  font-size: 15;
+  border: 1px solid lightgray;
+  background-color: #fafafa;
     }

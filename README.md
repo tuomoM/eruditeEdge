@@ -67,15 +67,15 @@ $ flask run
 
 - 1 Home page
 - Vocabs
--- Vocab List
----Create new vocab
----Edit vocab
----Suggest change to vocab
----Suggestion inbox
--Training menu
---Create a new training set / select vocabs
----Flash card training
----Test your knowledge
--- choose old set to train with / delete training
+- - Vocab List
+- - -Create new vocab
+- - -Edit vocab
+- - - Suggest change to vocab
+- - - Suggestion inbox
+- Training menu
+- - Create a new training set / select vocabs
+- - - Flash card training
+- - - Test your knowledge
+- - choose old set to train with / delete training
 - User statistics
 

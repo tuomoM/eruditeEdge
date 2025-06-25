@@ -47,6 +47,12 @@ class VocabService:
           return return_value
        
     def find_by_word(self, search_string, user_id):
+
+        if "*" in search_string:
+            search_string = search_string.replace("*","%")
+        else:
+            search_string = f"%{search_string}%"
+            
         return self._vocab_repository.find_vocabs(search_string,user_id)
     
   

@@ -3,6 +3,7 @@
 {% block title %}Maintain{% endblock %}
 
 {% block content %}
+<div class = "vocab-container">
     <form action="/update/{{vocab.id}}" method="POST">
         <p>
             <label for="word">Word</label>: <br />
@@ -41,8 +42,11 @@
 
         </p>
         <p>
+            <div class = "container">
+            <a href = "/vocab_list" class = "btn">Cancel</a>
             <input type="hidden" name = "vocab_id" value =  "{{ vocab.id }}" id = "id"/> 
             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+            </div>
         </p>
 
 
@@ -50,7 +54,7 @@
          <input type="submit" value="Save" />
          <input type="submit" value="Delete" name = "delete" />
     </form>
-   
+   </div>
   {% endblock %}
 
 

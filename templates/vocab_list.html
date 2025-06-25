@@ -1,0 +1,55 @@
+
+
+{% extends "template.html" %}
+
+{% block title %}Vocab list{% endblock %}
+
+{% block content %}
+
+   <div class = "nav-item">
+    <a href ="/create_vocab" name = "create_vocab" class = "btn">Add vocab</a>
+    <a href ="/inbox" name = "inbox" class = "btn">Suggestion inbox</a>
+   </div>
+   <div class = "search-container">
+    <form action = "/vocab_list" method = "POST">
+      <input type = "text" name = "search_term" id = "search_term">
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+      <input type="submit" value ="Search" class = "btn">
+    </form>
+      
+
+   </div>
+    <div class ="table-container">
+    <table class = "vocab-table">
+      <thead>
+      <tr>
+        <th>Word</th>
+        <th>Desription</th>
+        <th>Example sentence</th>
+        <th>Synonyms</th>
+        <th>Visibility</th>
+        <th>Change / Suggest change</th>
+      </tr>
+      </thead>
+      
+      {% for vocab in vocabs %}
+      <tbody>
+       <tr>
+         <td> {{ vocab.word }}</td>
+         <td>{{ vocab.w_description }}</td>
+         <td>{{ vocab.example }}</td>
+         <td>{{ vocab.synonyms }}</td>
+         <td>{{ vocab.flag_description }}</td>
+         <td class = "table-icon">  {%if vocab.user_id != session["user_id"]%}
+                <a href="/suggest_changes/{{vocab.id}}"><img src="/static/suggest.png" alt="Suggest change" width="35" height="25"> </a>
+                {%else%}
+                 <a href="/edit/{{ vocab.id }}" ><img src="/static/change.png" alt ="Change" width="35" height="25"> </a>
+               {%endif%}
+         </td>
+       </tr> 
+       </tbody>
+      {% endfor %}
+
+    </table>
+    </div>
+ {% endblock %}

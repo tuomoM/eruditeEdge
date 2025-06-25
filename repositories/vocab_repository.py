@@ -74,8 +74,8 @@ class VocabRepository:
                OR (global_flag = 1  AND word like ?)
                GROUP by a.id
                ORDER BY CASE WHEN user_id = ? THEN 0 ELSE 1 END"""
-        like = "%" + search_string + "%"
-        result = db.query(sql,[user_id,like,like, user_id])
+        
+        result = db.query(sql,[user_id,search_string,search_string, user_id])
         return result
         
     def get_vocabs_by_ids(self,user_id, ids):

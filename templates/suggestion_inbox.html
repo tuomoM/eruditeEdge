@@ -64,7 +64,7 @@
             {% for suggestion in own_suggestions %}
                 <div class="suggestion-item">
                     <p><strong>Word:</strong> {{ suggestion.word }}</p>
-                    <p><strong>Status:</strong> {{ suggestion.status }}</p>
+                    <p><strong>Suggestion status:</strong> {{ suggestion.status }}</p>
                     <div class = "original-vocab">
                         <p><strong>Original description:</strong> {{ suggestion.orig_description }}</p>
                         <p><strong>Original example</strong>{{ suggestion.orig_example }}</p>
@@ -83,7 +83,7 @@
                     <div class="suggestion-actions">             
                         <form action="/inbox/cancel_suggestion/{{ suggestion.id }}" method="POST" style="display: inline;">
                             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-                            <input type="submit" value="Cancel" class="btn">
+                            <input type="submit" value="Cancel suggestion" class="btn">
                         </form>
                     </div>
                     

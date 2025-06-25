@@ -16,13 +16,11 @@
     <div class="nav">
     <p>
       {% if session.user_id %}
-       <div class="nav_item"><a  href="/maintain">Maintain vocabulary</a></div>
-       <div class="nav_item"><a href="/init_training"> Practice</a></div>
-       <div class="nav_item"><a href="/logout"> Log out </a></div>
-       <div class="nav_item"><a href="/user_info"> User statistics</a></div>
-       <div class="nav_item"><a href="/search">Search for vocab</a></div>
-       <div class="nav_item"><a href="/inbox">Suggestions</a></div>
-
+       <div class="nav-item"><a  href="/vocab_list">Vocabulary</a></div>
+       <div class="nav-item"><a href="/init_training"> Practice</a></div>
+       <div class="nav-item"><a href="/logout"> Log out </a></div>
+       <div class="nav-item"><a href="/user_info"> User statistics</a></div>
+       
       {% else %}
        <a href="/login">Log in!</a> 
        <a href="/register">Register a new user</a>

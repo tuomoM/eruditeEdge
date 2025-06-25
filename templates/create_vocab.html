@@ -1,13 +1,12 @@
-
-
 {% extends "template.html" %}
 
-{% block title %}Maintain{% endblock %}
+{% block title %}{% endblock %}
 
 {% block content %}
-<h2>Add new vocab</h2>
 
-    <form action="/maintain" method="POST">
+    <div class="creation_container">
+        <h3>Add new vocab</h3>
+    <form action="/save_vocab" method="POST">
         
         <p>
             <label for="word">word</label>: <br />
@@ -37,38 +36,8 @@
             </select>  
         </p>
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-        <input type="submit" value="Save" />
+        <input type="submit" value="Save" class = "btn" />
+        <a href = "/vocab_list" class="btn">Cancel </a>
     </form>
-  
-   <td>
-      <h2> existing vocabs </h2>
-   </td>
-
-    <table>
-      <tr>
-        <th>Word</th>
-        <th>Desription</th>
-        <th>Example sentence</th>
-        <th>Synonyms</th>
-        <th>Visibility</th>
-        <th>Change / Suggest change</th>
-      </tr>
-      {% for vocab in vocabs %}
-       <tr>
-         <td> {{ vocab.word }}</td>
-         <td>{{ vocab.w_description }}</td>
-         <td>{{ vocab.example }}</td>
-         <td>{{ vocab.synonyms }}</td>
-         <td>{{ vocab.flag_description }}</td>
-         <td>  {%if vocab.user_id != session["user_id"]%}
-                <a href="/suggest_changes/{{vocab.id}}"><img src="/static/suggest.png" alt="Suggest change" width="35" height="25"> </a>
-                {%else%}
-                 <a href="/edit/{{ vocab.id }}" ><img src="/static/change.png" alt ="Change" width="35" height="25"> </a>
-               {%endif%}
-         </td>
-       </tr> 
-      {% endfor %}
-
-    </table>
-
+    </div>
  {% endblock %}

@@ -3,7 +3,8 @@
 {% block title %}Suggest Changes{% endblock %}
 
 {% block content %}
-<h1>Suggest Changes for "{{ vocab.word }}"</h1>
+<div class = "vocab-container">
+<h3>Suggest Changes for "{{ vocab.word }}"</h3>
 <p>Current Description: {{ vocab.w_description }}</p>
 <p>Current Example: {{ vocab.example }}</p>
 <p>Current Synonyms: {{ vocab.synonyms }}</p>
@@ -26,7 +27,7 @@
     </p>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="submit" value="Submit Suggestion" class="btn">
-    <a href="/maintain" class="btn">Cancel</a>
+    <a href="/vocab_list" class="btn">Cancel</a>
 </form>
-
+</div>
 {% endblock %}
