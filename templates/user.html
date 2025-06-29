@@ -4,16 +4,24 @@
 
 {% block content %}
 <div class="inbox-container">
+    <!-- User Vocab Stats -->
     <div class="suggestions-list">
-        <h2>Vocabulary Statistics</h2>
+        <h2>Your Vocabulary Stats</h2>
         <ul>
             <li><strong>Total Vocabs Created:</strong> {{ user_stats.no_of_vocabs }}</li>
             <li><strong>Global Vocabs:</strong> {{ user_stats.no_of_global }}</li>
         </ul>
+        <hr>
+        <h3>Community Averages</h3>
+        <ul>
+            <li><strong>Avg Vocabs Created:</strong> {{ community_stats.avg_no_of_vocabs |default(0) | round(1) }}</li>
+            <li><strong>Avg Global Vocabs:</strong> {{ community_stats.avg_no_of_global | default(0) | round(1) }}</li>
+        </ul>
     </div>
 
+    <!-- User Training Stats -->
     <div class="suggestions-list">
-        <h2>Training Statistics</h2>
+        <h2>Your Training Stats</h2>
         <ul>
             <li><strong>Active Sessions:</strong> {{ user_stats.open_sessions }}</li>
             <li><strong>Last Session Success:</strong>
@@ -25,14 +33,35 @@
             </li>
             <li><strong>Words Known:</strong> {{ user_stats.current_known }}</li>
         </ul>
+        <hr>
+        <h3>Community Averages</h3>
+        <ul>
+            <li><strong>Avg Active Sessions:</strong> {{ community_stats.avg_open_sessions | round(1) }}</li>
+            <li><strong>Avg Last Session Success:</strong>
+                {% if community_stats.avg_last_session_success is not none %}
+                    {{ (community_stats.avg_last_session_success * 100) | round(1) }}%
+                {% else %}
+                    No data
+                {% endif %}
+            </li>
+            <li><strong>Avg Words Known:</strong> {{ community_stats.avg_current_known | round(1) }}</li>
+        </ul>
     </div>
 
+    <!-- User Suggestion Stats -->
     <div class="suggestions-list">
-        <h2>Suggestion Activity</h2>
+        <h2>Your Suggestion Activity</h2>
         <ul>
             <li><strong>Suggestions Made:</strong> {{ user_stats.suggestions_created }}</li>
             <li><strong>Approved Suggestions:</strong> {{ user_stats.own_suggestions_approved }}</li>
             <li><strong>Suggestions Received:</strong> {{ user_stats.suggestions_to_own }}</li>
+        </ul>
+        <hr>
+        <h3>Community Averages</h3>
+        <ul>
+            <li><strong>Avg Suggestions Made:</strong> {{ community_stats.avg_suggestions_created | round(1) }}</li>
+            <li><strong>Avg Approved Suggestions:</strong> {{ community_stats.avg_own_suggestions_approved | round(1) }}</li>
+            <li><strong>Avg Suggestions Received:</strong> {{ community_stats.avg_suggestions_to_own | round(1) }}</li>
         </ul>
     </div>
 </div>

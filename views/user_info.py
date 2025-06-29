@@ -15,5 +15,6 @@ def before():
 @user_info_bp.route("/user_info")
 def user_info():
     users_stats = vocab_service.get_users_stats(session["user_id"])
+    community_stats = vocab_service.get_community_stats()
     #Add community stats
-    return render_template("user.html", user_stats = users_stats)
+    return render_template("user.html", user_stats = users_stats, community_stats = community_stats)

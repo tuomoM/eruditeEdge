@@ -13,7 +13,7 @@ class VocabRepository:
         sql = """SELECT COUNT(*) FROM vocabs WHERE user_id = ?"""
         result = db.query(sql,[user_id])
         return result[0]
-    
+    ## Users statistics
     def get_users_vocab_stats(self, user_id):
         sql = """SELECT COUNT(id) as no_of_vocabs, SUM(global_flag) as total_global
                  FROM vocabs
@@ -37,7 +37,7 @@ class VocabRepository:
         last_session_success = last_row[0]["success_rate"] if last_row else None
         sql3 = """SELECT COUNT(id) as count FROM vocab_status WHERE user_id = ? AND last_success_status = 8 """
         result = db.query(sql3,[user_id])
-        current_known = result[0]["count"]
+        current_known = result[0]["count"] or 0
         training_stats = {"open_sessions": open_sessions,
                           "last_session_success": last_session_success,
                           "current_known":current_known}
@@ -45,17 +45,85 @@ class VocabRepository:
     
     def get_users_suggestion_stats(self,user_id):
         sql = """SELECT count(id) as count FROM change_suggestions where creator_id = ?"""
-        suggestions_created = db.query(sql,[user_id])[0]["count"]
+        suggestions_created = db.query(sql,[user_id])[0]["count"] or 0
         sql2 = """SELECT count(id) as count FROM change_suggestions where creator_id = ? 
                   AND  change_status = 3 """
-        own_suggestions_approved = db.query(sql2, [user_id])[0]["count"]
+        own_suggestions_approved = db.query(sql2, [user_id])[0]["count"] or 0
         sql3 = """SELECT count(id) as count FROM change_suggestions where owner_id = ?"""
-        suggestions_to_own = db.query(sql3,[user_id])[0]["count"]
+        suggestions_to_own = db.query(sql3,[user_id])[0]["count"] or 0
         suggestion_stats = {"suggestions_created": suggestions_created,
                             "own_suggestions_approved": own_suggestions_approved,
                             "suggestions_to_own": suggestions_to_own}
         return suggestion_stats
+    ## Community statistics
+    def get_community_vocab_stats(self):
+        sql = """SELECT AVG(vocab_count) as average_vocabs FROM 
+                (SELECT COUNT(id) as vocab_count FROM vocabs GROUP BY user_id)"""
+        result = db.query(sql,[])
+        average_vocabs = result[0]["average_vocabs"] or 0
+        sql2 = """SELECT AVG(vocab_count) as average_vocabs_global FROM 
+                (SELECT COUNT(id) as vocab_count FROM vocabs WHERE global_flag = 1 GROUP BY user_id)"""
+        result2 = db.query(sql2,[])
+        average_vocabs_global = result2[0]["average_vocabs_global"] or 0
 
+        return{
+        "avg_no_of_vocabs": average_vocabs,
+        "avg_no_of_global": average_vocabs_global }
+
+    def get_community_training_stats(self):
+        sql = """SELECT AVG(training_count) as average_trainings FROM
+                 (SELECT COUNT(id) as training_count from training_sessions GROUP BY user_id)"""
+        result = db.query(sql,[])
+        average_trainings = result[0]["average_trainings"] or 0
+
+        sql2 = """WITH last_sessions AS (
+             SELECT user_id, MAX(id) AS last_session
+             FROM training_sessions
+            GROUP BY user_id),per_user_stats AS (
+            SELECT ls.user_id,
+            SUM(CASE WHEN vs.last_success_status = 8 THEN 1 ELSE 0 END) * 1.0 / COUNT(*) AS success_rate
+            FROM training_items ti
+            JOIN last_sessions ls ON ti.training_id = ls.last_session
+            JOIN vocab_status vs ON vs.vocab_id = ti.vocab_id AND vs.user_id = ls.user_id
+            GROUP BY ls.user_id)
+            SELECT AVG(success_rate) AS avg_success_rate FROM per_user_stats"""
+        result2 = db.query(sql2,[])
+        last_session_average_correct = result2[0]["avg_success_rate"] or 0
+
+        sql3 = """SELECT AVG(known_count) AS average_known FROM
+                  (SELECT COUNT(id) as known_count FROM vocab_status WHERE
+                   last_success_status = 8 GROUP BY user_id )"""
+        result3 = db.query(sql3,[])
+        average_known = result3[0]["average_known"] or 0
+
+        return {
+                "avg_open_sessions": average_trainings,
+                "avg_last_session_success": last_session_average_correct,
+                "avg_current_known": average_known
+                }
+    def get_community_suggestions_stats(self):
+        sql = """SELECT AVG(suggestion_count) as average_suggestions FROM
+                (SELECT COUNT(id) as suggestion_count FROM change_suggestions group by creator_id)"""
+        result = db.query(sql,[])
+        avg_suggestions_created = result[0]["average_suggestions"] or 0
+        sql2 = """SELECT AVG(suggestions_approved) as avg_suggestions_approved FROM
+                (SELECT COUNT(id) as suggestions_approved from change_suggestions WHERE change_status = 3
+                GROUP BY creator_id)"""
+        result2 = db.query(sql2,[])
+        avg_suggestions_approved = result2[0]["avg_suggestions_approved"] or 0
+
+        sql3 = """SELECT AVG(count_recieved) as avg_received FROM
+                  (SELECT COUNT(id) as count_recieved FROM change_suggestions group by owner_id)"""
+        result3 = db.query(sql3,[])
+        avg_suggestions_received = result3[0]["avg_received"] or 0
+
+        return {
+            "avg_suggestions_created": avg_suggestions_created,
+            "avg_own_suggestions_approved": avg_suggestions_approved,
+            "avg_suggestions_to_own": avg_suggestions_received
+            }
+
+    ## Vocab selection
     def get_vocabs(self, user_id : int):
         sql = """SELECT a.id as id, a.word as word, a.w_description as w_description,
                a.example as example, a.synonyms as synonyms, a.user_id as user_id, 

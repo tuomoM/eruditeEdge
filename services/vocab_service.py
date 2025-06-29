@@ -124,7 +124,13 @@ class VocabService:
         vocab_stats.update(self._vocab_repository.get_users_training_stats(user_id))
         vocab_stats.update(self._vocab_repository.get_users_suggestion_stats(user_id))
         return vocab_stats
-
+    def get_community_stats(self):
+        community_stats = {}
+        community_stats.update(self._vocab_repository.get_community_vocab_stats())
+        community_stats.update(self._vocab_repository.get_community_training_stats())
+        community_stats.update(self._vocab_repository.get_community_suggestions_stats())
+        return community_stats
+    
     def get_vocab_count(self, user_id):
         return self._vocab_repository.count_users_vocabs(user_id)
     def get_users_vocab_stats(self, user_id):
