@@ -1,5 +1,13 @@
 # eruditeEdge
 ![erudite Edge gives you a tool for getting your vocab skills sharpened](static/Eelogo.jpg)
+### eruditeEdge
+Solution has functionalities for adding vocabulary items, changing, deleting, publishing them to global use and possiblity to suggest changes to other users vocabs.
+Training part allows the user to create training sets out of the available vocabularies. The sets can be practiced in flashcard mode and knowledge tested.
+
+
+
+
+
 
 *This is a solution for helsinki university course*
 ### completed 
@@ -19,11 +27,12 @@
 - Add possibility to suggest a change to global vocabs created by other users
 - Add inbox type solution to review change suggestions and handle them.
 - Possibility to cancel your own suggestion for change when its not yet approved
+- Possibility to enter flashcard mode from user information / users training session view
+- User and community statistics added to user info page
+- Finalization of layouts and clean up of code
+- Possiblity to return to flashcard mode from testmode
 
 ### Planned updates
-- Possiblity to return to flashcard mode from testmode
-- Possibility to enter flashcard mode from user information / users training session view
-- Finalization of layouts and clean up of code
 - Visibility to rejected and accepted suggestions
 
 

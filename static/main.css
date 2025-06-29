@@ -334,3 +334,95 @@ body {
     border-color: #007BFF;
     background-color: #fff;
 }
+.test-container {
+  display: flexbox;
+  background-color: #fafafa;
+  border: lightgray;
+  padding: 20px;
+}
+.test-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.vocab-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.question-card {
+    background-color: #fafafa;
+    border: 1px solid lightgray;
+    border-radius: 6px;
+    padding: 15px;
+    transition: box-shadow 0.2s ease;
+}
+
+.question-card:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.question-card input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
+
+.question-card input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: #fff;
+}
+
+.submit-section {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+.summary-box {
+    background-color: #f0f8ff;
+    border: 1px solid #cce5ff;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+}
+
+.result-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.result-card {
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.result-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.result-card.correct {
+    border-left: 5px solid #28a745;
+    background-color: #e9f9ee;
+}
+
+.result-card.incorrect {
+    border-left: 5px solid #dc3545;
+    background-color: #fcebea;
+}
+
+.result-card p {
+    margin: 5px 0;
+}

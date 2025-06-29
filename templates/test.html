@@ -1,24 +1,27 @@
 {% extends "template.html" %}
 
-{% block title %}Maintain{% endblock %}
+{% block title %}Vocabulary Test{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>Vocabulary Test</h1>
-        <form action="/submit_test" method="POST">
-            <div class="vocab-questions">
-                {% for vocab in vocabs %}
-                <div class="question-item">
-                    <p><strong>Word:</strong> </p>
-                    <p><strong>Description:</strong> {{ vocab.w_description }}</p>
-                    <label for="answer-{{ vocab.id }}">Your Answer:</label>
-                    <input type="text" id="answer-{{ vocab.id }}" name="answers-{{ vocab.id }}" required>
-                </div>
-                {% endfor %}
+<div class="test-container">
+    <h3>Test Your Vocabulary Knowledge</h3>
+    <form action="/submit_test" method="POST" class="test-form">
+
+        <div class="vocab-questions">
+            {% for vocab in vocabs %}
+            <div class="question-card">
+                <p><strong>Description:</strong> {{ vocab.w_description }}</p>
+                <label for="answer-{{ vocab.id }}"><strong>Your Answer:</strong></label>
+                <input type="text" id="answer-{{ vocab.id }}" name="answers-{{ vocab.id }}" required>
             </div>
-            <br>
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-            <input type="submit" value ="Submit Test" class = "btn">
-        </form>
-    </div>
- {% endblock %}
+            {% endfor %}
+        </div>
+
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+        <div class="submit-section">
+            <input type="submit" value="Submit Test" class="btn">
+            <a href = "/train_fl/{{session.training_id}}" class ="btn"> Cancel and train with flashcards </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
