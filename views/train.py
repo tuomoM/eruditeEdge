@@ -8,13 +8,7 @@ def before():
     if request.method == "POST":
         if request.form["csrf_token"] != session["csrf_token"]:
            abort(403)
-###    
-#@train_bp.route("/train_fl/<string:search_term>", methods = ["POST", "GET"])
-#def train_fl(search_term):
-#    user_id = session["user_id"]
-#    vocabs = vocab_service.find_by_word(search_term,user_id)
-#    return render_template("practiceFlash.html", vocabs = vocabs)
-###
+
 @train_bp.route("/train_fl/<int:training_id>", methods = ["GET"])
 def train_fl(training_id):
     user_id = session["user_id"]
@@ -31,11 +25,13 @@ def init_training():
 @train_bp.route("/process_selection", methods = ["POST"])
 def process_selection():
     practice_mode = request.form.get("practice_mode")
+    session_description = request.form.get("session_description")
+    print(session_description)
     selected_vocab_ids = request.form.getlist("vocab_ids")
     if len(selected_vocab_ids) < 2:
         flash("Option only available with 2 or more vocabs")
         return redirect("/init_training")
-    training_id = vocab_service.get_training_id(session["user_id"],selected_vocab_ids)
+    training_id = vocab_service.get_training_id(session["user_id"],selected_vocab_ids,session_description)
     session["training_id"] = training_id
 
     vocabs = vocab_service.get_vocabset(session["user_id"], selected_vocab_ids)
@@ -55,7 +51,7 @@ def submit_test():
     if "training_id" not in session:
         return redirect("/init_training")
     training_id = session["training_id"]
-    answers = request.form.get("answers",{})
+    answers = {}
     form_data = request.form.to_dict()
     for keys in form_data:
         if "answer" in keys:
@@ -71,7 +67,7 @@ def submit_test():
 @train_bp.route("/delete_training/<int:id>", methods = ["POST","GET"])
 def delete_training(id:int):
     vocab_service.delete_training(id,session["user_id"])
-    return redirect("/user_info")
+    return redirect("/train_menu")
 
 @train_bp.route("/test_id/<int:id>", methods = ["POST","GET"])
 def test_id(id:int):

@@ -66,19 +66,20 @@ class VocabService:
         hash_value = hashlib.sha256(vocab_ids_str.encode()).hexdigest()
         return hash_value
     
-    def get_training_id(self,user_id, vocab_ids):
+    def get_training_id(self,user_id, vocab_ids,session_description):
         vocab_hash = self.generate_hash(vocab_ids)
         id = self._vocab_repository.get_training_id(user_id,vocab_hash)
         if id is None:
-            result = self.save_training(user_id,vocab_ids, vocab_hash)
+            result = self.save_training(user_id,vocab_ids, vocab_hash, session_description)
             return result
         else:
+            self._vocab_repository.update_training_description(id,session_description)
             return id
 
-    def save_training(self, user_id, vocab_ids, vocab_hash):
+    def save_training(self, user_id, vocab_ids, vocab_hash,session_description):
         time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-        training_id = self._vocab_repository.save_training(user_id,vocab_hash,time_stamp,vocab_ids)
+        training_id = self._vocab_repository.save_training(user_id,vocab_hash,time_stamp,vocab_ids, session_description)
         return training_id
     
     def check_answers(self,training_id, answers):

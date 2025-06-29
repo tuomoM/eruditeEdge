@@ -5,15 +5,20 @@
 {% block content %}
 
 
-   
+  <div class = "nav-item">
+    <a href ="/init_training" name = "create_vocab" class = "btn">Start new training set</a>
+    
+  </div>
 
-    <strong> Training sets done</strong>
+   
      {% if trainings %}
      <div class ="table-container">
+      <strong> Current training sets</strong>
       <table class = "vocab-table">
       <thead>
       <tr>
         <th>Id</th>
+        <th>Description</th>
         <th>Last accessed</th>
         <th>Success rate</th>
         <th> Number of vocabs in set</th>
@@ -27,6 +32,7 @@
       
        <tr>
          <td> {{training.id}}</td>
+         <td>{{training.session_description}}</td>
          <td>{{ training.last_accessed }}</td>
          <td>{{ training.success_rate }}</td>
          <td>{{ training.no_of_vocabs}}</td>

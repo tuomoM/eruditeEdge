@@ -3,9 +3,14 @@
 {% block title %}Select vocabs for training{% endblock %}
 
 {% block content %}
+<form action="/process_selection" method="POST">
+<div class="session-description">
+    <label for="session_description">Training Session Description:</label>
+    <textarea id="session_description" name="session_description" rows="2" placeholder="Description will overwrite possible description for chosen set"></textarea>
+</div>
 <div class="table-container">
-    <h2>Select Vocabs</h2>
-    <form action="/process_selection" method="POST">
+    <label for ="vocab-table">Select Vocabs for session</label>
+   
         <table class="vocab-table">
             <thead>
                 <tr>
@@ -21,7 +26,7 @@
                         <input type="checkbox" id="vocab-{{ vocab.id }}" name="vocab_ids" value="{{ vocab.id }}">
                     </td>
                     <td>{{ vocab.word }}</td>
-                    <td>{{ vocab.last_success_status | default('not tested') }}</td>
+                    <td>{{ vocab.last_test_status | default('not tested') }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -36,7 +41,7 @@
         </div>
 
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-        <input type="submit" value="Submit">
+        <input type="submit" value="Start test / practice">
     </form>
 </div>
 {% endblock %}

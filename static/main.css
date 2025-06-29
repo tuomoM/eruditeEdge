@@ -218,7 +218,7 @@ body {
   border: 1px solid lightgray;
   background-color: #fafafa;
     }
-    /* Container for the entire selection form */
+    
 .table-container {
     display: block;
     margin: 0; /* Remove auto margin to align left */
@@ -240,13 +240,16 @@ body {
     color: #333;
 }
 
-/* Table styling (reused from your example) */
 .vocab-table {
-    width: 100%; /* Ensure table takes full width */
+    width: 100%; 
     border-collapse: collapse;
     background-color: #fafafa;
 }
-
+.table-container label{
+    font-weight: bold;
+    margin-bottom: 5px;
+    background-color: #fafafa;
+}
 .vocab-table th,
 .vocab-table td {
     padding: 15px;
@@ -303,4 +306,31 @@ body {
     cursor: pointer;
     font-size: 16px;
     color: #333;
+}
+.session-description {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.session-description label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.session-description textarea {
+    resize: vertical;
+    padding: 10px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #fafafa;
+    transition: border-color 0.2s ease;
+}
+
+.session-description textarea:focus {
+    outline: none;
+    border-color: #007BFF;
+    background-color: #fff;
 }

@@ -24,13 +24,17 @@ class VocabRepository:
     def get_vocabs(self, user_id : int):
         sql = """SELECT a.id as id, a.word as word, a.w_description as w_description,
                a.example as example, a.synonyms as synonyms, a.user_id as user_id, 
-               a.global_flag as global_flag, b.status_description as flag_description
-               FROM vocabs as a LEFT JOIN status_categories as b ON a.global_flag = b.status_id WHERE user_id = ? 
+               a.global_flag as global_flag, b.status_description as flag_description,
+               d.status_description as last_test_status
+               FROM vocabs as a LEFT JOIN status_categories as b ON a.global_flag = b.status_id 
+               LEFT JOIN vocab_status as c ON c.vocab_id = a.id AND c.user_id = ?
+               LEFT JOIN status_categories as d ON d.status_id = c.last_success_status
+               WHERE a.user_id = ? 
                OR global_flag = 1
                GROUP BY a.id  
-               ORDER BY CASE WHEN user_id = ? THEN 0 ELSE 1 END
+               ORDER BY CASE WHEN a.user_id = ? THEN 0 ELSE 1 END
                """
-        result_set = db.query(sql,[user_id,user_id])
+        result_set = db.query(sql,[user_id,user_id,user_id])
         return result_set 
     def edit_vocab(self,word:str, description:str, example:str, synonyms:str, global_flag:int, id:int):
         sql = """UPDATE vocabs set word = ?, w_description = ?, example = ?,
@@ -99,19 +103,22 @@ class VocabRepository:
             return id
         else:
             return None
-
+    def update_training_description(self,training_id,session_description):
+        sql = "UPDATE training_sessions set session_description = ? where id = ? "
+        db.execute(sql,[session_description,training_id])
     def get_training_owner(self,training_id):
         sql = "SELECT user_id from training_sessions where id = ?"
         result = db.query(sql,[training_id])
         return result[0]
 
-    def save_training(self,user_id,vocab_hash, time_stamp ,vocab_ids):
-        sql1 = "INSERT INTO training_sessions (user_id,last_accessed, vocab_hash, success_rate) VALUES (?,?,?,?)"
-        db.execute(sql1,[user_id, time_stamp, vocab_hash,0.0])  
+    def save_training(self,user_id,vocab_hash, time_stamp ,vocab_ids, session_description):
+        sql1 = """INSERT INTO training_sessions (user_id,last_accessed, vocab_hash,
+               success_rate, session_description) VALUES (?,?,?,?,?)"""
+        db.execute(sql1,[user_id, time_stamp, vocab_hash,0.0,session_description])
         training_id = db.last_insert_id()
         
-        sql2 = "INSERT into training_items (training_id,vocab_id,success_rate) VALUES (?,?,?)"
-        params = [(training_id, vocab_id, 0) for vocab_id in vocab_ids]
+        sql2 = "INSERT into training_items (training_id,vocab_id) VALUES (?,?)"
+        params = [(training_id, vocab_id) for vocab_id in vocab_ids]
         db.execute_batch_insert(sql2,params)
         return training_id
 
@@ -128,7 +135,8 @@ class VocabRepository:
         db.execute(sql,[success_rate,time_stamp, training_id])
        
     def get_users_trainings(self, user_id):
-        sql = """Select a.id AS id, PRINTF("%.1f%%",a.success_rate*100) AS success_rate, a.last_accessed AS last_accessed,
+        sql = """Select a.id AS id, PRINTF("%.1f%%",a.success_rate*100) AS success_rate,
+          a.last_accessed AS last_accessed, a.session_description as session_description ,
           COUNT(b.id) AS no_of_vocabs FROM training_sessions AS a LEFT JOIN training_items AS b 
           ON a.id = b.training_id WHERE a.user_id = ?
           GROUP BY a.id, a.success_rate, a.last_accessed"""
@@ -148,9 +156,6 @@ class VocabRepository:
                 to_update.append([status, timestamp , user_id, vocab_id])
             else:
                 to_insert.append([user_id, vocab_id , status , timestamp])
-        print("repo")
-        print(to_insert)
-        print(to_update)
         if to_update:
             sql2 = """UPDATE vocab_status SET last_success_status = ?, last_updated = ?
                   WHERE user_id = ? AND vocab_id = ?"""
@@ -158,7 +163,7 @@ class VocabRepository:
         if to_insert:
             sql3 = """INSERT INTO vocab_status (user_id, vocab_id, last_success_status, last_updated)
                   VALUES (?, ?, ?, ?)"""
-            db.execute_batch_insert(sql3,to_insert)        
+            db.execute_batch_insert(sql3,to_insert)
 
     def delete_training(self, training_id, user_id):
         sql1 = "DELETE FROM training_items where training_id = ?"
