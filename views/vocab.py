@@ -39,11 +39,6 @@ def vocab_list_search():
     search_term = request.form["search_term"]
     vocabs = vocab_service.find_by_word(search_term,session["user_id"])
     return render_template("vocab_list.html", vocabs = vocabs)
-@vocab_bp.route("/view/<int:id>", methods = ["GET"])
-def view(id:int):
-
-    vocab = vocab_service.get_vocab(id)
-    return render_template("view.html", vocab = vocab)    
 
 @vocab_bp.route("/edit/<int:id>", methods = ["POST", "GET"])
 def edit(id:int): 
@@ -51,7 +46,7 @@ def edit(id:int):
     visibilities = vocab_service.get_vocab_categories()
 
     if session["user_id"] != vocab["user_id"]:
-        return redirect("/maintain")
+        return redirect("/vocab_list")
      
     return render_template("/edit.html", vocab = vocab, visibilities = visibilities)
 

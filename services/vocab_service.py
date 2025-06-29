@@ -118,7 +118,13 @@ class VocabService:
             self._vocab_repository.update_training_vocabs(user_id,succes_vocabs,8,time_stamp) 
         if failed_vocabs:
             self._vocab_repository.update_training_vocabs(user_id,failed_vocabs,7,time_stamp) 
-            
+    def get_users_stats(self,user_id):
+        vocab_stats = {}
+        vocab_stats.update(self._vocab_repository.get_users_vocab_stats(user_id))
+        vocab_stats.update(self._vocab_repository.get_users_training_stats(user_id))
+        vocab_stats.update(self._vocab_repository.get_users_suggestion_stats(user_id))
+        return vocab_stats
+
     def get_vocab_count(self, user_id):
         return self._vocab_repository.count_users_vocabs(user_id)
     def get_users_vocab_stats(self, user_id):

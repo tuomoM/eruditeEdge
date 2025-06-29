@@ -31,7 +31,7 @@ def process_selection():
     if len(selected_vocab_ids) < 2:
         flash("Option only available with 2 or more vocabs")
         return redirect("/init_training")
-    training_id = vocab_service.get_training_id(session["user_id"],selected_vocab_ids,session_description)
+    training_id = vocab_service.get_training_id(session["user_id"],selected_vocab_ids,session_description) 
     session["training_id"] = training_id
 
     vocabs = vocab_service.get_vocabset(session["user_id"], selected_vocab_ids)
@@ -78,15 +78,3 @@ def test_id(id:int):
         return redirect("/user_info")
     return render_template("test.html", vocabs = vocabs)
 
-@train_bp.route("/user_info", methods = ["POST","GET"])
-
-def user_info():
-
-    user_id = session["user_id"]
-    vocab_stats = vocab_service.get_users_vocab_stats(user_id)
-
-    total_vocabs = vocab_stats[0]
-    total_global = vocab_stats[1]
-    training_sessions = vocab_service.get_users_trainings(user_id)
-    total_trainings = len(training_sessions)
-    return render_template("user.html",trainings = training_sessions, total_trainings = total_trainings, total_vocabs = total_vocabs, total_global = total_global)

@@ -18,9 +18,44 @@ class VocabRepository:
         sql = """SELECT COUNT(id) as no_of_vocabs, SUM(global_flag) as total_global
                  FROM vocabs
                  WHERE user_id = ?"""
-        result = db.query(sql,[user_id])
-        return result[0]
+        result = db.query(sql,[user_id])[0]
+        no_of_vocabs = result["no_of_vocabs"]
+        no_of_global = result["total_global"]
+
+        vocab_stats = {"no_of_vocabs":no_of_vocabs,
+                       "no_of_global":no_of_global
+                      }
+
+        return vocab_stats
+    def get_users_training_stats(self,user_id):
+        #open training sessions
+        sql = """SELECT COUNT(id) as count from training_sessions where user_id = ? """
+        open_sessions = db.query(sql,[user_id])[0]["count"]
+        #last executed training session
+        sql2 = """SELECT success_rate FROM training_sessions WHERE user_id = ? ORDER BY last_accessed DESC LIMIT 1;"""
+        last_row= db.query(sql2,[user_id])
+        last_session_success = last_row[0]["success_rate"] if last_row else None
+        sql3 = """SELECT COUNT(id) as count FROM vocab_status WHERE user_id = ? AND last_success_status = 8 """
+        result = db.query(sql3,[user_id])
+        current_known = result[0]["count"]
+        training_stats = {"open_sessions": open_sessions,
+                          "last_session_success": last_session_success,
+                          "current_known":current_known}
+        return training_stats
     
+    def get_users_suggestion_stats(self,user_id):
+        sql = """SELECT count(id) as count FROM change_suggestions where creator_id = ?"""
+        suggestions_created = db.query(sql,[user_id])[0]["count"]
+        sql2 = """SELECT count(id) as count FROM change_suggestions where creator_id = ? 
+                  AND  change_status = 3 """
+        own_suggestions_approved = db.query(sql2, [user_id])[0]["count"]
+        sql3 = """SELECT count(id) as count FROM change_suggestions where owner_id = ?"""
+        suggestions_to_own = db.query(sql3,[user_id])[0]["count"]
+        suggestion_stats = {"suggestions_created": suggestions_created,
+                            "own_suggestions_approved": own_suggestions_approved,
+                            "suggestions_to_own": suggestions_to_own}
+        return suggestion_stats
+
     def get_vocabs(self, user_id : int):
         sql = """SELECT a.id as id, a.word as word, a.w_description as w_description,
                a.example as example, a.synonyms as synonyms, a.user_id as user_id, 

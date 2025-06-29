@@ -1,43 +1,39 @@
 {% extends "template.html" %}
 
-{% block title %} User home {% endblock %}
+{% block title %}Your Statistics{% endblock %}
 
 {% block content %}
-<div class="User_stats">
-    <h1>User {{session.username}}</h1>
-    <p><strong> training sessions: {{ total_trainings}}</strong></p>
-    <p><strong> vocabs created: {{ total_vocabs }}</strong></p>
-    <p><strong>vocabs marked global: {{ total_global }}</strong></p>
+<div class="inbox-container">
+    <div class="suggestions-list">
+        <h2>Vocabulary Statistics</h2>
+        <ul>
+            <li><strong>Total Vocabs Created:</strong> {{ user_stats.no_of_vocabs }}</li>
+            <li><strong>Global Vocabs:</strong> {{ user_stats.no_of_global }}</li>
+        </ul>
+    </div>
 
+    <div class="suggestions-list">
+        <h2>Training Statistics</h2>
+        <ul>
+            <li><strong>Active Sessions:</strong> {{ user_stats.open_sessions }}</li>
+            <li><strong>Last Session Success:</strong>
+                {% if user_stats.last_session_success is not none %}
+                    {{ (user_stats.last_session_success * 100)|round(1) }}%
+                {% else %}
+                    No data
+                {% endif %}
+            </li>
+            <li><strong>Words Known:</strong> {{ user_stats.current_known }}</li>
+        </ul>
+    </div>
+
+    <div class="suggestions-list">
+        <h2>Suggestion Activity</h2>
+        <ul>
+            <li><strong>Suggestions Made:</strong> {{ user_stats.suggestions_created }}</li>
+            <li><strong>Approved Suggestions:</strong> {{ user_stats.own_suggestions_approved }}</li>
+            <li><strong>Suggestions Received:</strong> {{ user_stats.suggestions_to_own }}</li>
+        </ul>
+    </div>
 </div>
-
-
-<div class="user_training"s>
-    <strong> Training sets done</strong>
-     {% if trainings %}
-     <table>
-      <tr>
-        <th>Id</th>
-        <th>Last accessed</th>
-        <th>Success rate</th>
-        <th> Number of vocabs in set</th>
-        <th></th>
-        <th></th>
-      </tr>
-      {% for training in trainings %}
-       <tr>
-         <td> {{training.id}}</td>
-         <td>{{ training.last_accessed }}</td>
-         <td>{{ training.success_rate }}</td>
-         <td>{{ training.no_of_vocabs}}</td>
-         <td><a href="/test_id/{{training.id}}"> Re-take test</a></td>
-         <td><a href="/delete_training/{{training.id}}"><img src="/static/delete_icon.png" alt="Delete set" width="35" height="25"></a></td>
-       </tr> 
-      {% endfor %}
-
-    </table>
-  {% endif %}
-
-</div>
-
 {% endblock %}
