@@ -1,6 +1,6 @@
 from repositories.vocab_repository import VocabRepository
 from repositories.vocab_repository import vocab_repository as default_vocab_repository
-import hashlib, time
+import hashlib
 from datetime import datetime
 
 
@@ -29,7 +29,7 @@ class VocabService:
     
     def edit_vocab(self, vocab ,word:str, description:str, example:str, synonyms:str, global_flag: int ):
         id = vocab["id"]
-        if not all(word,description,example,synonyms):
+        if not all([word,description,example,synonyms]):
             return "No field can be left empty"
         if description:
             if word in description:
@@ -52,7 +52,7 @@ class VocabService:
             search_string = search_string.replace("*","%")
         else:
             search_string = f"%{search_string}%"
-            
+
         return self._vocab_repository.find_vocabs(search_string,user_id)
     
   
@@ -99,10 +99,25 @@ class VocabService:
              })
    
         return results
+    #def update_vocab_success(self,user_id,vocab_ids, training_id):
+
     def update_training(self,training_id, success_rate:float):
         time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
         self._vocab_repository.update_training(training_id,success_rate,time_stamp)
-
+    def update_training_vocabs(self, answers, user_id):
+        succes_vocabs = []
+        failed_vocabs = []
+        time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
+        for answer in answers:
+            if answer["correctness"]:
+                succes_vocabs.append(int(answer["vocab_id"]))
+            else:
+                failed_vocabs.append(int(answer["vocab_id"]))
+        if succes_vocabs:
+            self._vocab_repository.update_training_vocabs(user_id,succes_vocabs,8,time_stamp) 
+        if failed_vocabs:
+            self._vocab_repository.update_training_vocabs(user_id,failed_vocabs,7,time_stamp) 
+            
     def get_vocab_count(self, user_id):
         return self._vocab_repository.count_users_vocabs(user_id)
     def get_users_vocab_stats(self, user_id):
@@ -141,9 +156,6 @@ class VocabService:
             return "Do not include the word in the description"
         time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self._vocab_repository.save_vocab_suggestion(user_id,vocab["user_id"],vocab_id,new_description,new_example,new_synonyms, comments,time_stamp)
- #       if isinstance(suggestion_id,int):
- #           return None
- #       return "Error in saving suggestion"
         return None
     
     def get_suggestions_to(self,user_id):

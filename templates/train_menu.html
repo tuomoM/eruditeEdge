@@ -1,0 +1,44 @@
+{% extends "template.html" %}
+
+{% block title %} Training menu {% endblock %}
+
+{% block content %}
+
+
+   
+
+    <strong> Training sets done</strong>
+     {% if trainings %}
+     <div class ="table-container">
+      <table class = "vocab-table">
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Last accessed</th>
+        <th>Success rate</th>
+        <th> Number of vocabs in set</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for training in trainings %}
+      
+       <tr>
+         <td> {{training.id}}</td>
+         <td>{{ training.last_accessed }}</td>
+         <td>{{ training.success_rate }}</td>
+         <td>{{ training.no_of_vocabs}}</td>
+         <td ><a href="/test_id/{{training.id}}"> Re-take test</a></td>
+         <td><a href ="/train_fl/{{training.id}}"> Practice set</a></td>
+         <td class = "table-icon"><a href="/delete_training/{{training.id}}"><img src="/static/delete_icon.png" alt="Delete set" width="35" height="25"></a></td>
+       </tr> 
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+</div>
+
+{% endblock %}

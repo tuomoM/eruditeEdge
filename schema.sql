@@ -15,6 +15,7 @@ CREATE TABLE vocabs(
 );
 CREATE TABLE training_sessions(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    session_description TEXT,
     user_id INTEGER REFERENCES users,
     last_accessed TIMESTAMP,
     vocab_hash TEXT,
@@ -24,8 +25,7 @@ CREATE TABLE training_sessions(
 CREATE TABLE training_items(
     id INTEGER PRIMARY KEY,
     training_id INTEGER REFERENCES training_sessions,
-    vocab_id INTEGER REFERENCES vocabs,
-    success_rate FLOAT
+    vocab_id INTEGER REFERENCES vocabs
 );
 
 CREATE TABLE status_categories(
@@ -45,5 +45,13 @@ CREATE TABLE change_suggestions(
     change_status INTEGER REFERENCES status_categories,
     creation_time TIMESTAMP,
     comments TEXT
+);
+CREATE TABLE vocab_status (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES users(id),
+    vocab_id INTEGER REFERENCES vocabs(id),
+    last_success_status INTEGER REFERENCES status_categories(status_id),
+    last_updated TIMESTAMP,
+    UNIQUE (user_id, vocab_id)
 );
 

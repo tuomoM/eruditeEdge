@@ -114,7 +114,7 @@ class VocabRepository:
         params = [(training_id, vocab_id, 0) for vocab_id in vocab_ids]
         db.execute_batch_insert(sql2,params)
         return training_id
-    
+
     def get_answers(self,training_id):
         sql = """SELECT b.id, b.word, b.w_description 
                  FROM training_items AS a 
@@ -135,6 +135,31 @@ class VocabRepository:
         result = db.query(sql,[user_id])
         return result
     
+    def update_training_vocabs(self, user_id, vocabs, status, timestamp):
+
+        # Get the users vocabs with status
+        sql1 = """SELECT vocab_id from vocab_status where user_id = ?"""
+        existing_vocab_rows = db.query(sql1, [user_id])
+        existing_vocab_ids = set(row["vocab_id"] for row in existing_vocab_rows)
+        to_update = []
+        to_insert = []
+        for vocab_id in vocabs:
+            if vocab_id in existing_vocab_ids:
+                to_update.append([status, timestamp , user_id, vocab_id])
+            else:
+                to_insert.append([user_id, vocab_id , status , timestamp])
+        print("repo")
+        print(to_insert)
+        print(to_update)
+        if to_update:
+            sql2 = """UPDATE vocab_status SET last_success_status = ?, last_updated = ?
+                  WHERE user_id = ? AND vocab_id = ?"""
+            db.execute_batch_insert(sql2,to_update)
+        if to_insert:
+            sql3 = """INSERT INTO vocab_status (user_id, vocab_id, last_success_status, last_updated)
+                  VALUES (?, ?, ?, ?)"""
+            db.execute_batch_insert(sql3,to_insert)        
+
     def delete_training(self, training_id, user_id):
         sql1 = "DELETE FROM training_items where training_id = ?"
         db.execute(sql1,[training_id])
