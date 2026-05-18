@@ -44,6 +44,20 @@ body {
 
 }
 .btn:hover,input[type="submit"]:hover { background-color: #aaa; }
+
+.ai-generate-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ai-generate-icon {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+    vertical-align: text-bottom;
+}
+
 .flashcard-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
