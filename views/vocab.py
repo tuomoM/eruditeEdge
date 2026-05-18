@@ -31,7 +31,10 @@ def create_vocab():
             return redirect("/vocab_list")
         examples = []
         if word:
-            examples = ai_service.generate_examples(word)  
+            if ai_service.is_valid_word(word):
+                examples = ai_service.generate_examples(word)
+            else:
+                flash("Please enter only one word before generating examples", "error")
         return render_template("create_vocab.html", visibilities = visibilities, word = word, description = description, example = example, synonyms = synonyms, global_flag = global_flag, examples = examples)
     return render_template("create_vocab.html", visibilities = visibilities)
 
