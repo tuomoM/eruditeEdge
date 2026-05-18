@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request,flash, redirect, session,abort
 from services.vocab_service import vocab_service
+from services.ai_service import ai_service
 
 vocab_bp = Blueprint("vocab", __name__)
 
@@ -14,21 +15,27 @@ def before():
 
 @vocab_bp.route("/create_vocab", methods = ["POST","GET"])
 def create_vocab():
+    visibilities = vocab_service.get_vocab_categories()
     if request.method == "POST":
         word = request.form["word"]
         description = request.form["description"]
         example = request.form["example"]
-        synomyms = request.form["synonyms"]
+        synonyms = request.form["synonyms"]
         global_flag = request.form["global_flag"]
-        error = vocab_service.add_vocab(word,description,example,synomyms,session["user_id"],global_flag)
-        if error:
-            flash(error, "error")
-        else:
-            flash("Vocab created")  
-        return redirect("/vocab_list")
-    
-    visibilities = vocab_service.get_vocab_categories()
+        if request.form.get("action") == "Save":
+            error = vocab_service.add_vocab(word,description,example,synonyms,session["user_id"],global_flag)
+            if error:
+                flash(error, "error")
+            else:
+                flash("Vocab created")  
+            return redirect("/vocab_list")
+        examples = []
+        if word:
+            examples = ai_service.generate_examples(word)  
+        return render_template("create_vocab.html", visibilities = visibilities, word = word, description = description, example = example, synonyms = synonyms, global_flag = global_flag, examples = examples)
     return render_template("create_vocab.html", visibilities = visibilities)
+
+@vocab_bp.route("/generate_examples", methods = ["POST"])
 
 @vocab_bp.route("/vocab_list", methods = ["GET"])
 def vocab_list():

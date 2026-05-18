@@ -3,6 +3,8 @@
 ### eruditeEdge
 Solution has functionalities for adding vocabulary items, changing, deleting, publishing them to global use and possiblity to suggest changes to other users vocabs.
 Training part allows the user to create training sets out of the available vocabularies. The sets can be practiced in flashcard mode and knowledge tested.
+Solution includes AI integration to Anthropic Haiku model to generate example sentences during creation. 
+Since the course is done and dealt with, the limit of no "javascript" has been lifted and a simple javascript part is included in vocab creation process.
 
 
 
@@ -31,9 +33,11 @@ Training part allows the user to create training sets out of the available vocab
 - User and community statistics added to user info page
 - Finalization of layouts and clean up of code
 - Possiblity to return to flashcard mode from testmode
+- Visibility to rejected and accepted suggestions
+- Anthropic Haiku AI integration to enable generation of example sentences during vocab creation
 
 ### Planned updates
-- Visibility to rejected and accepted suggestions
+
 
 
 
@@ -44,6 +48,7 @@ Training part allows the user to create training sets out of the available vocab
 
 
 ## Installation 
+Create .env for secret_key and Antrhopic api_key, see .env.example
 
 Create database:
 ```

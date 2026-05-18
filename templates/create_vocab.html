@@ -10,34 +10,52 @@
         
         <p>
             <label for="word">word</label>: <br />
-            <input type="text" name="word" id ="word" required />
+            <input type="text" name="word" id ="word" value ="{{word if word is defined else ''}}" required />
         </p>
         <p>
             <label for="description">Description</label>: <br />
-            <input type="text" name="description" size = 100 id = "description" required/>
+            <input type="text" name="description" size = 100 id = "description" value = "{{description if description is defined else ''}}" required/>
 
         </p>
             <p>
             <label for="example">Example sentence</label>: <br />
-            <input type="text" name="example" size = 100 id = "example" required/>
-
+            <input type="text" name="example" size = 100 id = "example" value="{{example if example is defined else ''}}"/>
         </p>
-        </p>
+        {% if examples %}
+            <div class="generated_examples">
+                {% for generated_example in examples %}
+                    <p>
+                        {{ generated_example }}
+                        <button type="button" class="btn use-example" data-example="{{ generated_example }}">
+                            Use
+                        </button>
+                    </p>
+                {% endfor %}
+            </div>
+        {% endif %}
             <p>
             <label for="synonyms">Synonyms</label>: <br />
-            <input type="text" name="synonyms" size = 50 id = "synonyms" required/>
+            <input type="text" name="synonyms" size = 50 id = "synonyms" value = "{{synonyms if synonyms is defined else ''}}"  required/>
 
         </p>
         <p>
             <select id ="global_flag" name="global_flag" required>
                 {% for visibility in visibilities %}
-                   <option value = {{visibility.status_id}} >{{visibility.status_description}}</option>
+                   <option value = {{visibility.status_id}} {% if global_flag is defined and global_flag|string == visibility.status_id|string %}selected{% endif %}>{{visibility.status_description}}</option>
                 {% endfor %}
             </select>  
         </p>
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-        <input type="submit" value="Save" class = "btn" />
+        <input type="submit" name="action" value="Save" class = "btn" />
+        <input type ="submit" name="action" value ="Generate example sentences" class ="btn" />
         <a href = "/vocab_list" class="btn">Cancel </a>
     </form>
     </div>
+    <script>
+        document.querySelectorAll(".use-example").forEach((button) => {
+            button.addEventListener("click", () => {
+                document.getElementById("example").value = button.dataset.example;
+            });
+        });
+    </script>
  {% endblock %}
