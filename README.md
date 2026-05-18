@@ -50,6 +50,13 @@ Since the course is done and dealt with, the limit of no "javascript" has been l
 ## Installation 
 Create .env for secret_key and Antrhopic api_key, see .env.example
 
+Install dependencies
+```
+$ pip install anthropic
+$ pip install python-dotenv
+
+```
+
 Create database:
 ```
 $ sqlite3 database.db < schema.sql
