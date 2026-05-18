@@ -38,7 +38,6 @@ def create_vocab():
         return render_template("create_vocab.html", visibilities = visibilities, word = word, description = description, example = example, synonyms = synonyms, global_flag = global_flag, examples = examples)
     return render_template("create_vocab.html", visibilities = visibilities)
 
-@vocab_bp.route("/generate_examples", methods = ["POST"])
 
 @vocab_bp.route("/vocab_list", methods = ["GET"])
 def vocab_list():

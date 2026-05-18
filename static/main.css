@@ -49,11 +49,13 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    vertical-align: middle;
+    padding: 2px 20px; 
 }
 
 .ai-generate-icon {
-    width: 15px;
-    height: 15px;
+    width: 17px;
+    height: 17px;
     fill: currentColor;
     vertical-align: text-bottom;
 }
